@@ -1,10 +1,30 @@
-import { ChatInputCommandInteraction, InteractionResponse } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  InteractionResponse,
+  SlashCommandBuilder,
+  SlashCommandSubcommandBuilder,
+} from 'discord.js';
 
-interface ChatCommand {
-  name: string;
-  description: string;
-  options?: Array<unknown>;
+interface ChatApplicationCommand {
+  data: SlashCommandBuilder;
+
   run: (interaction: ChatInputCommandInteraction) => (
-    Promise<InteractionResponse<boolean>> | Promise<void>
+    Promise<void> | Promise<InteractionResponse<boolean>>
+  );
+}
+
+interface ChatApplicationCommandWithSubcommands {
+  data: SlashCommandSubcommandsOnlyBuilder;
+
+  run: (interaction: ChatInputCommandInteraction) => (
+    Promise<void> | Promise<InteractionResponse<boolean>>
+  );
+}
+
+interface ChatApplicationSubcommand {
+  data: SlashCommandSubcommandBuilder;
+
+  run: (interaction: ChatInputCommandInteraction) => (
+    Promise<void> | Promise<InteractionResponse<boolean>>
   );
 }

@@ -1,18 +1,18 @@
 import fs from 'fs';
-import { ChatCommand } from 'src/types';
+import { ChatApplicationCommand } from 'src/types';
 
-const botCommands: Record<string, ChatCommand> = {};
+const botCommands: Record<string, ChatApplicationCommand> = {};
 const commandNames = fs.readdirSync(__dirname);
 
-commandNames.forEach(async (commandFileName) => {
-  if (commandFileName === __filename) return; // skip self
+commandNames.forEach(async (command) => {
+  if (command === 'index.ts') return; // skip self
+  const commandFileName = `${command}.ts`;
 
   // Dynamic import command with type module
-  const commandModule = await import(`./${commandFileName}`);
+  const commandModule = await import(`./${command}/${commandFileName}`);
 
   // Save command into commands object
-  const commandName = commandFileName.substring(0, commandFileName.indexOf('.'));
-  botCommands[commandName] = commandModule.default;
+  botCommands[command] = commandModule.default;
 });
 
 export default botCommands;

@@ -9,25 +9,23 @@ const rest = new REST({ version: '10' }).setToken(process.env.CLIENT_TOKEN);
 // (this is because we can't import from TypeScript, so `commands` needs to be compiled)
 
 const COMMANDS_PATH = path.join(__dirname, '../build/commands');
-const EXCLUDE_FILES = ['index.js'];
 
-const isCommandFile = (file) => file.endsWith('.js') && !EXCLUDE_FILES.includes(file);
+const isCommandFolder = (file) => !file.endsWith('.js');
 
 // Read all the commands files
-const commandFileNames = fs.readdirSync(COMMANDS_PATH).filter(isCommandFile);
+const commandFolderNames = fs.readdirSync(COMMANDS_PATH).filter(isCommandFolder);
 
 // Dynamically import all the commands
-const commandImportPromises = commandFileNames.map((command) => import(
-  path.join(COMMANDS_PATH, command)
-));
+const commandImportPromises = commandFolderNames.map((command) => {
+  const commandFileName = `${command}.js`;
+  return import(path.join(COMMANDS_PATH, command, commandFileName));
+});
 
 // Wait for all the commands to be resolved
 Promise.allSettled(commandImportPromises).then(async (commandModules) => {
   const botCommands = commandModules.map((commandModule) => {
     const defaultExport = commandModule.value.default.default;
-    // Extract run() command function
-    const { run, ...commandObject } = defaultExport;
-    return commandObject;
+    return defaultExport.data.toJSON(); // <-- This is the command JSON REST Post data
   });
 
   // Start deploying the commands

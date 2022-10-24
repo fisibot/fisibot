@@ -29,4 +29,13 @@ fisiClient.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
+fisiClient.on(Events.InteractionCreate, async (interaction) => {
+  if (!interaction.isButton()) return;
+
+  if (interaction.customId === 'registration-button') {
+    const who = interaction.user.id;
+    console.log(`User ${who} clicked the registration button`);
+  }
+});
+
 fisiClient.login(process.env.CLIENT_TOKEN);
