@@ -1,16 +1,14 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
-import { ChatApplicationCommand } from 'types';
+import { FisiSlashCommandWithoutSubcommands } from 'fisitypes';
 
-const ping: ChatApplicationCommand = {
+const ping: FisiSlashCommandWithoutSubcommands = {
   data: new SlashCommandBuilder()
     .setName('ping')
     .setDescription('Replies with pong!'),
 
-  run: async (interaction: ChatInputCommandInteraction) => {
-    await interaction.reply(
-      `Pong! ${Date.now() - interaction.createdTimestamp} ms :scream_cat:`,
-    );
-  },
+  run: (interaction: ChatInputCommandInteraction) => interaction.reply(
+    `Pong! ${Date.now() - interaction.createdTimestamp} ms :scream_cat:`,
+  ),
 };
 
 export default ping;

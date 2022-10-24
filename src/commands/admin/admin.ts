@@ -1,16 +1,16 @@
 import {
   ChatInputCommandInteraction, SlashCommandBuilder,
 } from 'discord.js';
-import { ChatApplicationCommandWithSubcommands } from 'types';
+import { FisiSlashCommandWithSubcommands } from 'fisitypes';
 import setupVerificationsSubcommand from './setup-verifications';
 
-const admin: ChatApplicationCommandWithSubcommands = {
+const admin: FisiSlashCommandWithSubcommands = {
   data: new SlashCommandBuilder()
     .setName('admin')
     .setDescription('Admin commands')
     .addSubcommand(setupVerificationsSubcommand.data),
 
-  run: (interaction: ChatInputCommandInteraction) => {
+  run: async (interaction: ChatInputCommandInteraction) => {
     const subcommand = interaction.options.getSubcommand(true);
 
     if (subcommand === 'setup-verifications') {

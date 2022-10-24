@@ -1,18 +1,16 @@
 import fs from 'fs';
-import { ChatApplicationCommand } from 'types';
+import { FisiSlashCommandObject } from 'fisitypes';
 
-const botCommands: Record<string, ChatApplicationCommand> = {};
+const botCommands: Record<string, FisiSlashCommandObject> = {};
 const commandNames = fs.readdirSync(__dirname);
 
+// Dynamically load all commands into `botCommands`
 commandNames.forEach(async (command) => {
   if (command === 'index.ts') return; // skip self
+
   const commandFileName = `${command}.ts`;
-
-  // Dynamic import command with type module
   const commandModule = await import(`./${command}/${commandFileName}`);
-
-  // Save command into commands object
-  botCommands[command] = commandModule.default;
+  botCommands[command] = commandModule.default as FisiSlashCommandObject;
 });
 
 export default botCommands;

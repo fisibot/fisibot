@@ -4,7 +4,7 @@ import {
   SlashCommandSubcommandBuilder,
   DiscordAPIError,
 } from 'discord.js';
-import { ChatApplicationSubcommand } from 'types';
+import { FisiSlashSubcommand } from 'fisitypes';
 import registrationButton from './components/registration-button';
 
 const sendVerificationMessage = async (channel: TextChannel) => {
@@ -14,7 +14,7 @@ const sendVerificationMessage = async (channel: TextChannel) => {
   });
 };
 
-const setupVerifications: ChatApplicationSubcommand = {
+const setupVerifications: FisiSlashSubcommand = {
   data: new SlashCommandSubcommandBuilder()
     .setName('setup-verifications')
     .setDescription('Setup verifications for the FISI UNMSM server')
