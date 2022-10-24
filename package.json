@@ -4,7 +4,7 @@
   "description": "Discord bot for the FISI UNMSM server",
   "main": "src/bot.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/deployCommands.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node build/bot.js",
     "dev": "ts-node-dev src/bot.ts"
