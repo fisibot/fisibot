@@ -1,7 +1,7 @@
 import {
   ChatInputCommandInteraction, SlashCommandBuilder,
 } from 'discord.js';
-import { ChatApplicationCommandWithSubcommands } from 'src/types';
+import { ChatApplicationCommandWithSubcommands } from 'types';
 import setupVerificationsSubcommand from './setup-verifications';
 
 const admin: ChatApplicationCommandWithSubcommands = {

@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { ChatApplicationCommand } from 'src/types';
+import { ChatApplicationCommand } from 'types';
 
 const botCommands: Record<string, ChatApplicationCommand> = {};
 const commandNames = fs.readdirSync(__dirname);

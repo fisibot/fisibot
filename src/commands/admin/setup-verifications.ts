@@ -4,7 +4,7 @@ import {
   SlashCommandSubcommandBuilder,
   DiscordAPIError,
 } from 'discord.js';
-import { ChatApplicationSubcommand } from 'src/types';
+import { ChatApplicationSubcommand } from 'types';
 import registrationButton from './components/registration-button';
 
 const sendVerificationMessage = async (channel: TextChannel) => {
