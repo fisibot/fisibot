@@ -10,13 +10,18 @@
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "skipLibCheck": true,
+        "rootDir": "src",
         "baseUrl": ".",
         "paths": {
-            "@structs/*": ["./src/structs/*"],
-            "@components/*": ["./src/components/*"],
-            "@commands/*": ["./src/commands/*"],
-            "@events/*": ["./src/events/*"],
-            "@fisitypes": ["./src/fisitypes"],
-        },
-    }
+            "@structs/*": ["src/structs/*"],
+            "@components/*": ["src/components/*"],
+            "@commands/*": ["src/commands/*"],
+            "@events/*": ["src/events/*"],
+            "@fisitypes": ["src/fisitypes"]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "src/scripts"
+    ]
 }
