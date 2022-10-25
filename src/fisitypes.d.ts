@@ -4,11 +4,14 @@ import {
   SlashCommandBuilder,
   SlashCommandSubcommandBuilder,
   SlashCommandSubcommandsOnlyBuilder,
+  ClientEvents,
+  Awaitable,
 } from 'discord.js';
+
+// Slash commands 🐢
 
 interface FisiSlashCommandObject {
   data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandSubcommandBuilder;
-
   run: (interaction: ChatInputCommandInteraction) => (
     Promise<InteractionResponse<boolean>>
   );
@@ -33,4 +36,11 @@ interface FisiSlashCommandWithSubcommands extends FisiSlashCommandObject {
  */
 interface FisiSlashSubcommand extends FisiSlashCommandObject {
   data: SlashCommandSubcommandBuilder;
+}
+
+// Events 🐢
+
+interface FisiClientEventObject {
+  eventName: keyof ClientEvents;
+  handle: (...args: ClientEvents[typeof eventModule.eventName]) => Awaitable<void>
 }

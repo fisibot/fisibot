@@ -1,16 +1,20 @@
 import fs from 'fs';
 import { FisiSlashCommandObject } from 'fisitypes';
+import path from 'path';
 
 const botCommands: Record<string, FisiSlashCommandObject> = {};
-const commandNames = fs.readdirSync(__dirname);
+
+const COMMANDS_PATH = __dirname;
+const commandNames = fs.readdirSync(COMMANDS_PATH);
 
 // Dynamically load all commands into `botCommands`
-commandNames.forEach(async (command) => {
-  if (command === 'index.ts') return; // skip self
+commandNames.forEach(async (commandName) => {
+  if (commandName === 'index.ts') return; // skip self
 
-  const commandFileName = `${command}.ts`;
-  const commandModule = await import(`./${command}/${commandFileName}`);
-  botCommands[command] = commandModule.default as FisiSlashCommandObject;
+  const commandFile = `${commandName}.ts`;
+  console.log(`Loading command: ${commandFile}`);
+  const commandModule = await import(path.join(COMMANDS_PATH, commandName, commandFile));
+  botCommands[commandName] = commandModule.default as FisiSlashCommandObject;
 });
 
 export default botCommands;
