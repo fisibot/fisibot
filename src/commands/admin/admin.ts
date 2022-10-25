@@ -1,8 +1,8 @@
 import {
   ChatInputCommandInteraction, SlashCommandBuilder,
 } from 'discord.js';
-import { FisiSlashCommandWithSubcommands } from 'fisitypes';
-import setupVerificationsSubcommand from './setup-verifications';
+import { FisiSlashCommandWithSubcommands } from '@fisitypes';
+import setupVerificationsSubcommand from '@commands/admin/setup-verifications';
 
 const admin: FisiSlashCommandWithSubcommands = {
   data: new SlashCommandBuilder()

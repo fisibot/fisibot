@@ -1,8 +1,4 @@
-import {
-  ButtonBuilder,
-  ActionRowBuilder,
-  ButtonStyle,
-} from 'discord.js';
+import { ButtonBuilder, ActionRowBuilder, ButtonStyle } from 'discord.js';
 
 function registrationButton(): ActionRowBuilder<ButtonBuilder> {
   const actionRow = new ActionRowBuilder<ButtonBuilder>();

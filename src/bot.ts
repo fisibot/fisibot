@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { GatewayIntentBits } from 'discord.js';
-import FisibotClient from './structs/fisibotClient';
+import FisibotClient from '@structs/fisibotClient';
 
 const fisiClient = new FisibotClient({
   intents: [

@@ -1,6 +1,6 @@
-import { FisiClientEventObject } from 'fisitypes';
 import { CacheType, Events, Interaction } from 'discord.js';
-import registrationModal from '../components/registration-modal';
+import { FisiClientEventObject } from '@fisitypes';
+import registrationModal from '@components/registration-modal';
 
 const interactionCreateHandler: FisiClientEventObject = {
   eventName: Events.InteractionCreate,

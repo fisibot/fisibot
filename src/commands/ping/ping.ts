@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
-import { FisiSlashCommandWithoutSubcommands } from 'fisitypes';
+import { FisiSlashCommandWithoutSubcommands } from '@fisitypes';
 
 const ping: FisiSlashCommandWithoutSubcommands = {
   data: new SlashCommandBuilder()

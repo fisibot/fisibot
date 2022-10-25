@@ -4,8 +4,8 @@ import {
   SlashCommandSubcommandBuilder,
   DiscordAPIError,
 } from 'discord.js';
-import { FisiSlashSubcommand } from 'fisitypes';
-import registrationButton from '../../components/registration-button';
+import { FisiSlashSubcommand } from '@fisitypes';
+import registrationButton from '@components/registration-button';
 
 const sendVerificationMessage = async (channel: TextChannel) => {
   await channel.send({

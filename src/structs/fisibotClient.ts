@@ -1,7 +1,7 @@
-import { Client, ClientOptions } from 'discord.js';
-import { FisiClientEventObject, FisiSlashCommandObject } from 'fisitypes';
 import fs from 'fs';
 import path from 'path';
+import { Client, ClientOptions } from 'discord.js';
+import { FisiClientEventObject, FisiSlashCommandObject } from '@fisitypes';
 
 export default class FisibotClient extends Client {
   public commands: Record<string, FisiSlashCommandObject>;

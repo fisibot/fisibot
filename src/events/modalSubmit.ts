@@ -1,5 +1,5 @@
-import { FisiClientEventObject } from 'fisitypes';
 import { CacheType, Events, Interaction } from 'discord.js';
+import { FisiClientEventObject } from '@fisitypes';
 
 const interactionCreateHandler: FisiClientEventObject = {
   eventName: Events.InteractionCreate,

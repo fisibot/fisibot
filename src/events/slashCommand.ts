@@ -1,6 +1,6 @@
 import { CacheType, Events, Interaction } from 'discord.js';
-import { FisiClientEventObject } from 'fisitypes';
-import botCommands from '../commands';
+import { FisiClientEventObject } from '@fisitypes';
+import botCommands from '@commands/index';
 
 const interactionCreateHandler: FisiClientEventObject = {
   eventName: Events.InteractionCreate,

@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { FisiSlashCommandObject } from 'fisitypes';
 import path from 'path';
+import { FisiSlashCommandObject } from '@fisitypes';
 
 const botCommands: Record<string, FisiSlashCommandObject> = {};
 

@@ -4,12 +4,19 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "module": "commonjs",
-        "rootDir": "./src",
-        "outDir": "./build",
-        "baseUrl": "./src",
+        "moduleResolution": "node",
+        "outDir": "build",
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@structs/*": ["./src/structs/*"],
+            "@components/*": ["./src/components/*"],
+            "@commands/*": ["./src/commands/*"],
+            "@events/*": ["./src/events/*"],
+            "@fisitypes": ["./src/fisitypes"],
+        },
     }
 }
