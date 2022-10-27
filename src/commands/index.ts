@@ -13,8 +13,10 @@ commandNames.forEach(async (commandName) => {
 
   const commandFile = `${commandName}.ts`;
   console.log(`Loading command: ${commandFile}`);
-  const commandModule = await import(path.join(COMMANDS_PATH, commandName, commandFile));
-  botCommands[commandName] = commandModule.default as FisiSlashCommandObject;
+  const commandModule = await import(path.join(COMMANDS_PATH, commandName, commandFile)) as {
+    default: FisiSlashCommandObject
+  };
+  botCommands[commandName] = commandModule.default;
 });
 
 export default botCommands;

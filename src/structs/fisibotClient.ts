@@ -18,8 +18,10 @@ export default class FisibotClient extends Client {
     const eventFiles = fs.readdirSync(EVENTS_PATH);
 
     eventFiles.forEach(async (eventFile) => {
-      const eventHandler = await import(path.join(EVENTS_PATH, eventFile));
-      const eventModule = eventHandler.default as FisiClientEventObject;
+      const eventHandler = await import(path.join(EVENTS_PATH, eventFile)) as {
+        default: FisiClientEventObject
+      };
+      const eventModule = eventHandler.default;
 
       this.on(eventModule.eventName, eventModule.handle);
     });
