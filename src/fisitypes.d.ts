@@ -21,7 +21,7 @@ interface FisiSlashCommandObject {
  * Type for slash (/) command that doesn't have subcommands.
  */
 interface FisiSlashCommandWithoutSubcommands extends FisiSlashCommandObject {
-  data: SlashCommandBuilder;
+  data: SlashCommandBuilder | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
 }
 
 /**
