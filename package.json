@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Discord bot for the FISI UNMSM server",
   "main": "src/bot.ts",
+  "engines": {
+    "node": "16.16.0"
+  },
   "scripts": {
     "start": "node -r ts-node/register -r tsconfig-paths/register ./build/bot.js",
     "start:ts": "ts-node -r tsconfig-paths/register src/bot.ts",
