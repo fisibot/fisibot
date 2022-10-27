@@ -1,4 +1,6 @@
-import { CacheType, Events, Interaction } from 'discord.js';
+import {
+  CacheType, DiscordAPIError, Events, Interaction,
+} from 'discord.js';
 import { FisiClientEventObject } from '@fisitypes';
 import botCommands from '@commands/index';
 
@@ -8,15 +10,23 @@ const interactionCreateHandler: FisiClientEventObject = {
     if (!interaction.isChatInputCommand()) return;
 
     const { commandName } = interaction;
+    console.log(commandName);
 
     if (botCommands[commandName]) {
       await botCommands[commandName].run(interaction);
     }
     else {
-      await interaction.reply({
-        content: `Comando no implementado: /${commandName} <:fisiblush:1033579475042054205>`,
-        ephemeral: true,
-      });
+      try {
+        await interaction.reply({
+          content: `Comando no implementado: /${commandName} <:fisiblush:1033579475042054205>`,
+          ephemeral: true,
+        });
+      }
+      catch (error) {
+        if (error instanceof DiscordAPIError) {
+          console.error(error, error.requestBody);
+        }
+      }
     }
   },
 };
