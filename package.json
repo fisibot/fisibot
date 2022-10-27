@@ -5,10 +5,12 @@
   "main": "src/bot.ts",
   "scripts": {
     "start": "node -r ts-node/register -r tsconfig-paths/register ./build/bot.js",
-    "build": "tsc && node -r ts-node/register -r tsconfig-paths/register scripts/deployCommands.js",
+    "start:ts": "ts-node -r tsconfig-paths/register src/bot.ts",
     "dev": "tsnd --respawn -r tsconfig-paths/register src/bot.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:ts": "ts-node -r tsconfig-paths/register src/bot.ts"
+    "build": "tsc",
+    "setup:db": "tsc && node -r ts-node/register -r tsconfig-paths/register scripts/setupDatabase.js",
+    "setup:commands": "tsc && node -r ts-node/register -r tsconfig-paths/register scripts/registerCommands.js"
   },
   "keywords": [],
   "author": "FISI B22",
@@ -26,6 +28,7 @@
   },
   "dependencies": {
     "discord.js": "14.6.0",
-    "dotenv": "16.0.3"
+    "dotenv": "16.0.3",
+    "mongodb": "4.11.0"
   }
 }

@@ -17,7 +17,9 @@
             "@components/*": ["src/components/*"],
             "@commands/*": ["src/commands/*"],
             "@events/*": ["src/events/*"],
-            "@fisitypes": ["src/fisitypes"]
+            "@fisitypes": ["src/fisitypes"],
+            "@services/*": ["src/services/*"],
+            "@models/*": ["src/models/*"],
         }
     },
     "exclude": [

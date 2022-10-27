@@ -1,5 +1,7 @@
 import { CacheType, Events, Interaction } from 'discord.js';
 import { FisiClientEventObject } from '@fisitypes';
+import { collections } from '@services/mongo';
+import RegisteredMember from 'src/models/registeredMember';
 
 const interactionCreateHandler: FisiClientEventObject = {
   eventName: Events.InteractionCreate,
@@ -9,7 +11,13 @@ const interactionCreateHandler: FisiClientEventObject = {
     if (interaction.customId === 'registration-form') {
       const fullname = interaction.fields.getTextInputValue('fullname');
       const studentCode = interaction.fields.getTextInputValue('studentCode');
+      const discordId = interaction.user.id;
+
       console.log('Registration form submitted with values: ', fullname, studentCode);
+
+      const registeredMember = new RegisteredMember(fullname, studentCode, discordId);
+      collections.registrations!.insertOne(registeredMember);
+
       await interaction.deferReply();
       await interaction.deleteReply();
     }
