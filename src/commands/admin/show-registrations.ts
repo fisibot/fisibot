@@ -20,7 +20,7 @@ const setupVerifications: FisiSlashSubcommand = {
     }
     const registrations = await collections.registrations.find<RegisteredMember>({}).toArray();
 
-    registrations.map((uwu: RegisteredMember) => console.log('membersito:', uwu));
+    console.log(`Showing ${registrations.length} members:`, registrations);
 
     return interaction.reply({
       content: 'See the console hehehe',
