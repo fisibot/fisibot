@@ -9,7 +9,6 @@ export default class FisibotClient extends Client {
   constructor(options: ClientOptions) {
     super(options);
     this.commands = {};
-    this.loadEvents();
     this.once('ready', () => console.log('🙀 Fisibot is running!'));
   }
 
@@ -18,11 +17,12 @@ export default class FisibotClient extends Client {
     const eventFiles = fs.readdirSync(EVENTS_PATH);
 
     eventFiles.forEach(async (eventFile) => {
-      const eventHandler = await import(path.join(EVENTS_PATH, eventFile)) as {
+      const eventHandler = await import(`@events/${eventFile}`) as {
         default: FisiClientEventObject
       };
       const eventModule = eventHandler.default;
 
+      // Register event handler
       this.on(eventModule.eventName, eventModule.handle);
     });
   }

@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 import { FisiSlashCommandObject } from '@fisitypes';
 
 const botCommands: Record<string, FisiSlashCommandObject> = {};
@@ -13,7 +12,7 @@ commandNames.forEach(async (commandName) => {
 
   const commandFile = `${commandName}.ts`;
   console.log(`Loading command: ${commandFile}`);
-  const commandModule = await import(path.join(COMMANDS_PATH, commandName, commandFile)) as {
+  const commandModule = await import(`@commands/${commandName}/${commandFile}`) as {
     default: FisiSlashCommandObject
   };
   botCommands[commandName] = commandModule.default;
