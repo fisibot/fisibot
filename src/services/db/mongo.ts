@@ -21,7 +21,7 @@ export async function connectToDatabase() {
     const dbs = await mongoClient.db().admin().listDatabases();
     dbs.databases.forEach(({ name: dbname }) => console.log(` - ${dbname}`));
 
-    const db: mongoDB.Db = mongoClient.db('fisibot-discord');
+    const db: mongoDB.Db = mongoClient.db(process.env.DB_NAME);
 
     const COLLECTION_NAME = 'registrations';
 

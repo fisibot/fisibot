@@ -44,7 +44,7 @@ async function main() {
 
   const mongoClient = new mongoDB.MongoClient(MONGO_URI);
   await mongoClient.connect();
-  const db = mongoClient.db('fisibot-discord');
+  const db = mongoClient.db(process.env.DB_NAME);
 
   const collectionsPromises = collectionsFiles.map(async (collectionFile) => (
     import(path.join(COLLECTIONS_PATH, collectionFile))
