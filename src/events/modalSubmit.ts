@@ -1,7 +1,7 @@
 import { CacheType, Events, Interaction } from 'discord.js';
 import { FisiClientEventObject } from '@fisitypes';
-import { collections } from '@services/mongo';
-import RegisteredMember from 'src/models/registeredMember';
+import { collections } from '@services/db/mongo';
+import RegisteredMember from '@services/db/models/registeredMember';
 
 const interactionCreateHandler: FisiClientEventObject = {
   eventName: Events.InteractionCreate,

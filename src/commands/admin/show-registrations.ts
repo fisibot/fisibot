@@ -3,8 +3,8 @@ import {
   SlashCommandSubcommandBuilder,
 } from 'discord.js';
 import { FisiSlashSubcommand } from '@fisitypes';
-import { collections } from '@services/mongo';
-import RegisteredMember from '@models/registeredMember';
+import { collections } from '@services/db/mongo';
+import RegisteredMember from '@services/db/models/registeredMember';
 
 const setupVerifications: FisiSlashSubcommand = {
   data: new SlashCommandSubcommandBuilder()

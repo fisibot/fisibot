@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import * as mongoDB from 'mongodb';
-import RegisteredMember from '@models/registeredMember';
+import RegisteredMember from '@services/db/models/registeredMember';
 
 const { MONGO_URI } = process.env;
 
