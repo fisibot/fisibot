@@ -18,7 +18,8 @@
             "@commands/*": ["src/commands/*"],
             "@events/*": ["src/events/*"],
             "@fisitypes": ["src/fisitypes"],
-            "@services/*": ["src/services/*"]
+            "@services/*": ["src/services/*"],
+            "@utils/*": ["src/utils/*"],
         }
     },
     "exclude": [
