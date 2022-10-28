@@ -1,6 +1,5 @@
 import { Client, EmbedBuilder, version } from 'discord.js';
-import { getCpuInfo } from '@utils/serverInfo';
-import os from 'os';
+import { getCPUInfo, getRAMInfo, getPCInfo } from '@utils/serverInfo';
 
 const codeBlock = (content: string) => `\`\`\`${content}\`\`\``;
 
@@ -17,25 +16,21 @@ const representUsage = (total: number, used: number) => {
 };
 
 async function serverStatusEmbed(client: Client<true>): Promise<EmbedBuilder> {
-  const totalRAM = os.totalmem();
-  const usedRAM = totalRAM - os.freemem();
-  const totalRAMGB = (totalRAM / 1024 / 1024).toFixed(2);
-
-  const cpu = await getCpuInfo();
-  const OSinfo = `${os.platform()} ${os.release()}`;
+  const cpu = await getCPUInfo();
+  const ram = getRAMInfo();
+  const pc = getPCInfo();
 
   const botUptime = new Date(Date.now() - client.readyAt.getTime());
-  const serverUptime = (os.uptime() / 60 / 60).toFixed(2);
 
   return new EmbedBuilder()
     .setTitle('Fisibot server status')
     .setThumbnail(client.user.avatarURL())
-    .setDescription(`${codeBlock(cpu.model)}${codeBlock(OSinfo)}`)
+    .setDescription(`${codeBlock(cpu.model)}${codeBlock(pc.OS)}`)
     .addFields(
       {
         name: 'Rendimento',
         value: codeBlock(
-          `RAM ${representUsage(totalRAM, usedRAM)} (${totalRAMGB} GB)\n`
+          `RAM ${representUsage(ram.total, ram.used)} (${ram.totalGB} GB)\n`
           + `CPU ${representUsage(100, cpu.usage)}`,
         ),
       },
@@ -46,7 +41,7 @@ async function serverStatusEmbed(client: Client<true>): Promise<EmbedBuilder> {
       },
       {
         name: 'Server Uptime',
-        value: codeBlock(`${serverUptime} hours`),
+        value: codeBlock(`${pc.uptime} hours`),
         inline: true,
       },
       {
@@ -57,8 +52,8 @@ async function serverStatusEmbed(client: Client<true>): Promise<EmbedBuilder> {
         inline: true,
       },
       {
-        name: 'Node.js',
-        value: codeBlock(process.version),
+        name: 'Runtime',
+        value: codeBlock(`Node.js ${process.version}`),
       },
     )
     .setFooter({
