@@ -18,7 +18,7 @@ export const getCPUInfo = async () => {
 export const getRAMInfo = () => {
   const total = os.totalmem();
   const used = total - os.freemem();
-  const totalGB = (total / 1024 / 1024).toFixed(2);
+  const totalGB = (((total / 1024) / 1024) / 1024).toFixed(2);
 
   return { total, used, totalGB };
 };
