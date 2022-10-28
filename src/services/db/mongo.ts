@@ -2,7 +2,7 @@ import 'dotenv/config';
 import * as mongoDB from 'mongodb';
 import RegisteredMember from '@services/db/models/registeredMember';
 
-const { MONGO_URI } = process.env;
+const { MONGO_URI, DB_NAME } = process.env;
 
 export const collections: {
   registrations?: mongoDB.Collection<RegisteredMember>;
@@ -20,7 +20,7 @@ export async function connectToDatabase() {
   const dbs = await mongoClient.db().admin().listDatabases();
   dbs.databases.forEach(({ name: dbname }) => console.log(` - ${dbname}`));
 
-  const db: mongoDB.Db = mongoClient.db(process.env.DB_NAME);
+  const db: mongoDB.Db = mongoClient.db(DB_NAME);
 
   const COLLECTION_NAME = 'registrations';
 

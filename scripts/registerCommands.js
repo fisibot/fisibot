@@ -7,11 +7,12 @@ const { REST, Routes } = require('discord.js');
 // See https://discordjs.guide/creating-your-bot/command-deployment.html#guild-commands
 
 async function main() {
-  const { CLIENT_TOKEN } = process.env;
+  const { CLIENT_TOKEN, APPLICATION_ID } = process.env;
+
   if (!CLIENT_TOKEN) {
     throw new Error('Please define the CLIENT_TOKEN environment variable inside .env');
   }
-  const rest = new REST({ version: '10' }).setToken(process.env.CLIENT_TOKEN);
+  const rest = new REST({ version: '10' }).setToken(CLIENT_TOKEN);
 
   const COMMANDS_PATH = path.join(__dirname, '../build/commands');
   const isCommandFolder = (file) => !file.endsWith('.js');
@@ -40,7 +41,7 @@ async function main() {
 
     try {
       const data = await rest.put(
-        Routes.applicationCommands(process.env.APPLICATION_ID),
+        Routes.applicationCommands(APPLICATION_ID),
         { body: botCommands },
       );
       console.log(`\n✅ Successfully registered ${data.length} application (/) commands.`);

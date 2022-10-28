@@ -38,7 +38,7 @@ async function createCollection(COLLECTION_NAME, SCHEMA_VALIDATOR, db) {
 }
 
 async function main() {
-  const { MONGO_URI } = process.env;
+  const { MONGO_URI, DB_NAME } = process.env;
   const COLLECTIONS_PATH = path.join(__dirname, '../build/models');
 
   if (!MONGO_URI) {
@@ -49,7 +49,7 @@ async function main() {
 
   const mongoClient = new mongoDB.MongoClient(MONGO_URI);
   await mongoClient.connect();
-  const db = mongoClient.db(process.env.DB_NAME); // database to create the collections in
+  const db = mongoClient.db(DB_NAME); // database to create the collections in
 
   const collectionsPromises = collectionsFiles.map(async (collectionFile) => (
     import(path.join(COLLECTIONS_PATH, collectionFile))
