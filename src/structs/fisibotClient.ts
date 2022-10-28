@@ -10,6 +10,11 @@ export default class FisibotClient extends Client {
     super(options);
     this.commands = {};
     this.once('ready', () => console.log('🙀 Fisibot is running!'));
+
+    process.on('exit', (code) => {
+      console.log(`👋 Fisibot exited with code ${code}`);
+      this.destroy();
+    });
   }
 
   loadEvents() {
