@@ -20,7 +20,11 @@ async function serverStatusEmbed(client: Client<true>): Promise<EmbedBuilder> {
   const ram = getRAMInfo();
   const pc = getPCInfo();
 
-  const botUptime = new Date(Date.now() - client.readyAt.getTime());
+  const botUptime = {
+    seconds: Math.floor(client.uptime / 1000),
+    minutes: Math.floor(client.uptime / 1000 / 60),
+    hours: Math.floor(client.uptime / 1000 / 60 / 60),
+  };
 
   return new EmbedBuilder()
     .setTitle('Fisibot server status')
@@ -46,9 +50,7 @@ async function serverStatusEmbed(client: Client<true>): Promise<EmbedBuilder> {
       },
       {
         name: 'Bot Uptime',
-        value: codeBlock(
-          `${botUptime.getUTCHours()}h ${botUptime.getMinutes()}m ${botUptime.getSeconds()}s`,
-        ),
+        value: codeBlock(`${botUptime.hours}h ${botUptime.minutes}m ${botUptime.seconds}s`),
         inline: true,
       },
       {
