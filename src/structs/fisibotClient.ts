@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { Client, ClientOptions } from 'discord.js';
+import { Client, ClientEvents, ClientOptions } from 'discord.js';
 import { FisiClientEventObject, FisiSlashCommandObject } from '@fisitypes';
 
 export default class FisibotClient extends Client {
@@ -23,7 +23,7 @@ export default class FisibotClient extends Client {
 
     eventFiles.forEach(async (eventFile) => {
       const eventHandler = await import(`@events/${eventFile}`) as {
-        default: FisiClientEventObject
+        default: FisiClientEventObject<keyof ClientEvents>
       };
       const eventModule = eventHandler.default;
 
