@@ -50,7 +50,7 @@ const setupVerifications: FisiSlashSubcommand = {
         : ` Unknown error: ${error}`;
 
       return interaction.reply({
-        content: `Can't send verification message to ${channel} <:fisiblush:1033579475042054205>. `
+        content: `Can't send verification message to ${channel} <:fisiflushed:1033579475042054205>. `
         + `${errorMsg}`,
         ephemeral: true,
       });

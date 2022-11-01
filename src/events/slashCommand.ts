@@ -18,7 +18,7 @@ const SlashCommandHandler: FisiClientEventObject<Events.InteractionCreate> = {
     else {
       try {
         await interaction.reply({
-          content: `Comando no implementado: /${commandName} <:fisiblush:1033579475042054205>`,
+          content: `Comando no implementado: /${commandName} <:fisiflushed:1033579475042054205>`,
           ephemeral: true,
         });
       }
