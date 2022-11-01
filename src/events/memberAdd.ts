@@ -1,7 +1,7 @@
 import { Events, GuildMember } from 'discord.js';
 import { FisiClientEventObject } from '@fisitypes';
 
-const interactionCreateHandler: FisiClientEventObject = {
+const memberAddHandler: FisiClientEventObject<Events.GuildMemberAdd> = {
   eventName: Events.GuildMemberAdd,
   handle: async (member: GuildMember) => {
     if (member.user.bot) {
@@ -12,4 +12,4 @@ const interactionCreateHandler: FisiClientEventObject = {
   },
 };
 
-export default interactionCreateHandler;
+export default memberAddHandler;

@@ -4,13 +4,13 @@ import {
 import { FisiClientEventObject } from '@fisitypes';
 import botCommands from '@commands/index';
 
-const interactionCreateHandler: FisiClientEventObject = {
+const SlashCommandHandler: FisiClientEventObject<Events.InteractionCreate> = {
   eventName: Events.InteractionCreate,
   handle: async (interaction: Interaction<CacheType>) => {
     if (!interaction.isChatInputCommand()) return;
 
     const { commandName } = interaction;
-    console.log(commandName);
+    console.log('Slash command used:', commandName);
 
     if (botCommands[commandName]) {
       await botCommands[commandName].run(interaction);
@@ -31,4 +31,4 @@ const interactionCreateHandler: FisiClientEventObject = {
   },
 };
 
-export default interactionCreateHandler;
+export default SlashCommandHandler;

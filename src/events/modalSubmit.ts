@@ -3,7 +3,7 @@ import { FisiClientEventObject } from '@fisitypes';
 import { collections } from '@services/db/mongo';
 import RegisteredMember from '@services/db/models/registeredMember';
 
-const interactionCreateHandler: FisiClientEventObject = {
+const ModalSubmitHandler: FisiClientEventObject<Events.InteractionCreate> = {
   eventName: Events.InteractionCreate,
   handle: async (interaction: Interaction<CacheType>) => {
     if (!interaction.isModalSubmit()) return;
@@ -24,4 +24,4 @@ const interactionCreateHandler: FisiClientEventObject = {
   },
 };
 
-export default interactionCreateHandler;
+export default ModalSubmitHandler;

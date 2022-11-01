@@ -4,7 +4,7 @@ import registrationModal from '@components/registration-modal';
 import { collections } from '@services/db/mongo';
 import RegisteredMember from '@services/db/models/registeredMember';
 
-const interactionCreateHandler: FisiClientEventObject = {
+const buttonPressedHandler: FisiClientEventObject<Events.InteractionCreate> = {
   eventName: Events.InteractionCreate,
   handle: async (interaction: Interaction<CacheType>) => {
     if (!interaction.isButton()) return;
@@ -24,4 +24,4 @@ const interactionCreateHandler: FisiClientEventObject = {
   },
 };
 
-export default interactionCreateHandler;
+export default buttonPressedHandler;

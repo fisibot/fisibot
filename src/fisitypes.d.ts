@@ -40,7 +40,7 @@ interface FisiSlashSubcommand extends FisiSlashCommandObject {
 
 // Events 🐢
 
-interface FisiClientEventObject {
-  eventName: keyof ClientEvents;
-  handle: (...args: ClientEvents[typeof eventModule.eventName]) => Awaitable<void>
+interface FisiClientEventObject<E extends keyof ClientEvents> {
+  eventName: E;
+  handle: (...args: ClientEvents[E]) => Awaitable<void>
 }
