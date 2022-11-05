@@ -1,8 +1,7 @@
-import { CacheType, Events, Interaction } from 'discord.js';
+import {
+  CacheType, DiscordAPIError, Events, Interaction,
+} from 'discord.js';
 import { FisiClientEventObject } from '@fisitypes';
-import registrationModal from '@components/registration-modal';
-import { collections } from '@services/db/mongo';
-import RegisteredMember from '@services/db/models/registeredMember';
 
 const buttonPressedHandler: FisiClientEventObject<Events.InteractionCreate> = {
   eventName: Events.InteractionCreate,
@@ -10,16 +9,38 @@ const buttonPressedHandler: FisiClientEventObject<Events.InteractionCreate> = {
     if (!interaction.isButton()) return;
 
     if (interaction.customId === 'registration-button') {
-      const findQuery = { discordId: interaction.user.id };
-      const registration = await collections.registrations?.findOne<RegisteredMember>(findQuery);
+      const { REGISTRATION_FORM_URL } = process.env;
+      const message = 'Bienvenido al Discord de la Fisi <:fisiflushed:1033579475042054205>\n'
+      + 'Para registrarte, por favor completa el siguiente formulario:\n'
+      + `${REGISTRATION_FORM_URL}\n\nTu id de discord es \`${interaction.user.id}\``;
 
-      if (registration) {
-        interaction.reply({
-          content: 'You are already registered',
-          ephemeral: true,
-        });
+      try {
+        await interaction.user.send(message);
       }
-      else interaction.showModal(registrationModal());
+      catch (error) {
+        // User has DMs disabled
+        if (error instanceof DiscordAPIError) {
+          await interaction.reply({
+            content: message,
+            ephemeral: true,
+          });
+        }
+        else console.log(error);
+      }
+      await interaction.deferReply();
+      await interaction.deleteReply();
+
+      // TODO: check if user is already registered
+
+      // const findQuery = { discordId: interaction.user.id };
+      // const registration = await collections.registrations?.findOne<RegisteredMember>(findQuery);
+      // if (registration) {
+      //   interaction.reply({
+      //     content: 'You are already registered',
+      //     ephemeral: true,
+      //   });
+      // }
+      // else interaction.showModal(registrationModal());
     }
   },
 };
