@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { Client, ClientEvents, ClientOptions } from 'discord.js';
+import {
+  ActivityType, Client, ClientEvents, ClientOptions,
+} from 'discord.js';
 import { FisiClientEventObject, FisiSlashCommandObject } from '@fisitypes';
 
 export default class FisibotClient extends Client {
@@ -9,7 +11,10 @@ export default class FisibotClient extends Client {
   constructor(options: ClientOptions) {
     super(options);
     this.commands = {};
-    this.once('ready', () => console.log('🙀 Fisibot is running!'));
+    this.once('ready', () => {
+      console.log('🙀 Fisibot is running!');
+      this.user?.setActivity('@Fisibot', { type: ActivityType.Watching });
+    });
 
     process.on('exit', (code) => {
       console.log(`👋 Fisibot exited with code ${code}`);
