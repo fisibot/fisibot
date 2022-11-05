@@ -1,4 +1,6 @@
-import { APIEmbedField, Events, Message } from 'discord.js';
+import {
+  APIEmbedField, DiscordAPIError, Events, Message,
+} from 'discord.js';
 import { FisiClientEventObject } from '@fisitypes';
 import RegisteredMember from '@services/db/models/registeredMember';
 import { collections } from '@services/db/mongo';
@@ -23,15 +25,31 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
 
         try {
           console.log('registering...', registeredUser);
+          const { VERIFIED_ROLE_ID } = process.env;
+          // Save user to db
           await collections.registrations?.insertOne(registeredUser);
+
+          // Give the user the verified role
+          // Issues I encountered:
+          // 1. The user is not in the guild
+          // 2. Missing Permissions: https://stackoverflow.com/q/62360928
+          const newMember = await message.guild?.members.fetch(registeredUser.discordId);
+          await newMember?.roles.add(VERIFIED_ROLE_ID!);
           message.react('👌');
         }
         catch (error) {
           if (error instanceof MongoServerError) {
-            message.reply(`Fatal error when registering: ${error.errmsg}`);
+            message.reply(`Server error when registering: ${error.errmsg}`);
+            message.react('❌');
+          }
+          if (error instanceof DiscordAPIError) {
+            message.reply(`API error when registering: ${error}`);
+            message.react('❌');
           }
           else {
-            message.reply(`Failed to register: ${error}`);
+            message.reply(`Unknown error when registering: ${error}`);
+            console.error(error);
+            message.react('❌');
           }
         }
       }
