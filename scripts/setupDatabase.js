@@ -39,7 +39,7 @@ async function createCollection(COLLECTION_NAME, SCHEMA_VALIDATOR, db) {
 
 async function main() {
   const { MONGO_URI, DB_NAME } = process.env;
-  const COLLECTIONS_PATH = path.join(__dirname, '../build/models');
+  const COLLECTIONS_PATH = path.join(__dirname, '../build/services/db/models');
 
   if (!MONGO_URI) {
     throw new Error('Please define the MONGO_URI environment variable inside .env');
