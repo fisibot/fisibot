@@ -1,9 +1,10 @@
 import fs from 'fs';
 import { FisiSlashCommandObject } from '@fisitypes';
+import path from 'path';
 
 const botCommands: Record<string, FisiSlashCommandObject> = {};
 
-const COMMANDS_PATH = __dirname;
+const COMMANDS_PATH = path.join(__dirname, '..', 'commands');
 const commandPaths = fs.readdirSync(COMMANDS_PATH);
 console.log('🍈 Loading command handlers...');
 

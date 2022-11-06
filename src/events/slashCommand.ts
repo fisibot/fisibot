@@ -2,7 +2,7 @@ import {
   CacheType, DiscordAPIError, Events, Interaction,
 } from 'discord.js';
 import { FisiClientEventObject } from '@fisitypes';
-import botCommands from '@commands/index';
+import botCommands from '@utils/loadBotCommands';
 
 const SlashCommandHandler: FisiClientEventObject<Events.InteractionCreate> = {
   eventName: Events.InteractionCreate,

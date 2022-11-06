@@ -15,15 +15,19 @@ async function main() {
   const rest = new REST({ version: '10' }).setToken(CLIENT_TOKEN);
 
   const COMMANDS_PATH = path.join(__dirname, '../build/commands');
-  const isCommandFolder = (file) => !file.endsWith('.js');
 
   // Read all the commands files
-  const commandFolderNames = fs.readdirSync(COMMANDS_PATH).filter(isCommandFolder);
+  const commandFolderNames = fs.readdirSync(COMMANDS_PATH);
 
   // Dynamically import all the commands
-  const commandImportPromises = commandFolderNames.map((command) => {
-    const commandFileName = `${command}.js`;
-    return import(path.join(COMMANDS_PATH, command, commandFileName));
+  const commandImportPromises = commandFolderNames.map((commandFolder) => {
+    const isDir = !commandFolder.includes('.');
+    if (isDir) {
+      const commandFileName = `${commandFolder}.js`;
+      return import(path.join(COMMANDS_PATH, commandFolder, commandFileName));
+    }
+    const commandFileName = commandFolder;
+    return import(path.join(COMMANDS_PATH, commandFileName));
   });
 
   // Wait for all the commands to be resolved
@@ -37,7 +41,7 @@ async function main() {
     // See https://discordjs.guide/creating-your-bot/command-deployment.html#command-registration
 
     console.log(`🐢 Started refreshing ${botCommands.length} application (/) commands:`);
-    botCommands.forEach((command) => console.log(` - /${command.name}`));
+    botCommands.forEach((command) => console.log(`   /${command.name}`));
 
     try {
       const data = await rest.put(
