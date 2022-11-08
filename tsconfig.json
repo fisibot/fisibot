@@ -20,7 +20,9 @@
             "@fisitypes": ["src/fisitypes"],
             "@services/*": ["src/services/*"],
             "@utils/*": ["src/utils/*"],
-        }
+            "@root/*": ["src/*"]
+        },
+        "resolveJsonModule": true,
     },
     "exclude": [
         "node_modules",
