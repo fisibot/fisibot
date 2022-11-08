@@ -1,6 +1,11 @@
 build/
 node_modules/
-.env
-.vscode/
 package-lock.json
 TODO.md
+
+# Configuration files
+.vscode/
+src/botconfig.json
+
+# Secrets
+.env
