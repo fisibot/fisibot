@@ -9,7 +9,8 @@ const reglas: FisiSlashCommandWithoutSubcommands = {
     .addStringOption((option) => option
       .setName('regla')
       .setDescription('Regla que quieres consultar')
-      .setRequired(true)),
+      .setRequired(true)
+      .setAutocomplete(true)),
 
   run: async (interaction: ChatInputCommandInteraction) => {
     const input = interaction.options.getString('regla', true).toLowerCase();
@@ -24,7 +25,11 @@ const reglas: FisiSlashCommandWithoutSubcommands = {
 
     if (Number.isNaN(ruleNumber)) {
       return interaction.reply({
-        content: 'Usted ha ingresado una regla inválida que puede explotar el servidor',
+        embeds: [new EmbedBuilder()
+          .setDescription(
+            `\`/reglas '${input}'\` <:fisithink:1040146700494458920> ?`
+            + '\n\n Prueba `/reglas <número>` o usa el autocompletado',
+          )],
         ephemeral: true,
       });
     }
@@ -33,7 +38,8 @@ const reglas: FisiSlashCommandWithoutSubcommands = {
 
     if (!guildRule) {
       return interaction.reply({
-        content: `La regla ${ruleNumber} aún no ha sido escrita por los dioses`,
+        embeds: [new EmbedBuilder()
+          .setDescription(`La regla \`${ruleNumber}\` aún no ha sido escrita`)],
         ephemeral: true,
       });
     }
