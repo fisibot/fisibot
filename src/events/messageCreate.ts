@@ -28,25 +28,24 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
         try {
           // Try to find the member in the guild
           // See https://www.reddit.com/r/Discordjs/comments/slgr4v/how_do_cache_and_fetch_work_and_what_is_the/
-          newMember = await message.guild?.members.fetch(registeredUser.discordId);
+          newMember = await message.guild?.members?.fetch(registeredUser.discordId);
 
-          console.log('registering...', registeredUser);
           const { VERIFIED_ROLE_ID } = process.env;
-
-          // Save user to db
-          await collections.registrations?.insertOne(registeredUser);
 
           // Give the user the verified role
           // Issues I encountered:
           // 1. The user is not in the guild
           // 2. Missing Permissions: https://stackoverflow.com/q/62360928
-          await newMember?.roles.add(VERIFIED_ROLE_ID!);
+          await newMember!.roles.add(VERIFIED_ROLE_ID!);
           message.react('👌');
           newMember!.send(
             'Bienvenido al Discord de la FISI!!!\n\n'
             + 'Has desbloqueado todo el servidor, gracias por registrarte.\n'
             + '`#ProyectoDiscordDeLaFISI`',
           ).catch(() => {});
+
+          // Save user to db
+          await collections.registrations?.insertOne(registeredUser);
         }
         catch (error) {
           let errorMessage: string;
@@ -58,7 +57,9 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
           }
           else if (error instanceof MongoServerError) {
             // Mongo fails, but we have fetched the user
-            errorMessage = `Server error when registering: ${error.errmsg}`;
+            errorMessage = `User registered, but could not be saved to DB: ${error.errmsg}`;
+            // react with warning
+            message.react('⚠️');
           }
           else {
             errorMessage = `Unknown error when registering: ${error}`;
@@ -71,7 +72,7 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
               + 'Estamos (_claramente_) solucionando el problema, pero mientras tanto, '
               + 'puedes contactar a un administrador para que te registre manualmente.',
             );
-            errorMessage += `. DM sent to \`${newMember?.user.tag}\``;
+            errorMessage += `. DM feedback message sent to \`${newMember?.user.tag}\``;
           }
           catch (_error) {
             errorMessage += `. Could not send DM to \`${registeredUser.discordId}\``;
