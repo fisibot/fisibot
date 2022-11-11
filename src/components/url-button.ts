@@ -3,15 +3,16 @@ import { ButtonBuilder, ActionRowBuilder, ButtonStyle } from 'discord.js';
 type URLButtonProps = {
   label: string;
   url: string;
+  emoji: string;
 };
 
-function URLButton({ label, url }: URLButtonProps): ActionRowBuilder<ButtonBuilder> {
+function URLButton({ label, url, emoji }: URLButtonProps): ActionRowBuilder<ButtonBuilder> {
   const actionRow = new ActionRowBuilder<ButtonBuilder>();
   const button = new ButtonBuilder()
     .setLabel(label)
     .setStyle(ButtonStyle.Link)
     .setURL(url)
-    .setEmoji('<:googleforms:1040432625162129428>');
+    .setEmoji(emoji);
 
   actionRow.addComponents(button);
   return actionRow;
