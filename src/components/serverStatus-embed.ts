@@ -21,8 +21,8 @@ async function serverStatusEmbed(client: Client<true>): Promise<EmbedBuilder> {
   const pc = getPCInfo();
 
   const botUptime = {
-    seconds: Math.floor(client.uptime / 1000),
-    minutes: Math.floor(client.uptime / 1000 / 60),
+    seconds: Math.floor(client.uptime / 1000) % 60,
+    minutes: Math.floor(client.uptime / 1000 / 60) % 60,
     hours: Math.floor(client.uptime / 1000 / 60 / 60),
   };
 
