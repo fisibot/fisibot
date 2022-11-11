@@ -2,6 +2,8 @@ import {
   CacheType, DiscordAPIError, Events, Interaction,
 } from 'discord.js';
 import { FisiClientEventObject } from '@fisitypes';
+import formsMemberDMEmbed from '@components/forms-DM-embed';
+import formsUrlButton from '@components/forms-url-button';
 
 const buttonPressedHandler: FisiClientEventObject<Events.InteractionCreate> = {
   eventName: Events.InteractionCreate,
@@ -9,26 +11,27 @@ const buttonPressedHandler: FisiClientEventObject<Events.InteractionCreate> = {
     if (!interaction.isButton()) return;
 
     if (interaction.customId === 'registration-button') {
-      const { REGISTRATION_FORM_URL } = process.env;
-      const message = 'Bienvenido al Discord de la Fisi <:fisiflushed:1033579475042054205>\n'
-      + 'Para registrarte, por favor completa el siguiente formulario:\n'
-      + `${REGISTRATION_FORM_URL}\n\nTu id de discord es \`${interaction.user.id}\``;
-
       try {
-        await interaction.user.send(message);
+        await interaction.user.send({
+          embeds: [formsMemberDMEmbed()],
+          components: [formsUrlButton({ user_id: interaction.user.id })],
+        });
+        await interaction.deferReply();
+        await interaction.deleteReply();
       }
       catch (error) {
-        // User has DMs disabled
+        console.log('Error sending message to user', error);
+        // If User has DMs disabled
+        // TODO: Send DM request
         if (error instanceof DiscordAPIError) {
           await interaction.reply({
-            content: message,
+            embeds: [formsMemberDMEmbed()],
+            components: [formsUrlButton({ user_id: interaction.user.id })],
             ephemeral: true,
           });
         }
         else console.log(error);
       }
-      await interaction.deferReply();
-      await interaction.deleteReply();
 
       // TODO: check if user is already registered
 
