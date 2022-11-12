@@ -1,12 +1,12 @@
 import {
-  APIEmbedField, DiscordAPIError, Events, GuildMember, Message,
+  APIEmbedField, DiscordAPIError, EmbedBuilder, Events, GuildMember, Message,
 } from 'discord.js';
 import { FisiClientEventObject } from '@fisitypes';
 import RegisteredMember from '@services/db/models/registeredMember';
 import { collections } from '@services/db/mongo';
 import { MongoServerError } from 'mongodb';
 
-function parseFieldsToJSON(fields: APIEmbedField[]) {
+function parseEmbedFieldsToJSON(fields: APIEmbedField[]) {
   const obj: { [key: string]: any } = {};
   fields.forEach((field) => {
     obj[field.name] = field.value;
@@ -23,15 +23,17 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
 
     if (message.content === '`#!fisibot/registrations`') {
       const { fields } = webhookMessage.embeds[0];
-      const registeredUser = parseFieldsToJSON(fields) as RegisteredMember;
-      registeredUser.base = Number(registeredUser.base);
+      const registeredUser = parseEmbedFieldsToJSON(fields) as RegisteredMember;
+      registeredUser.base = Number(registeredUser.base); // base del alumno
 
       let newMember: GuildMember | undefined;
 
       try {
         // Try to find the member in the guild
         // See https://www.reddit.com/r/Discordjs/comments/slgr4v/how_do_cache_and_fetch_work_and_what_is_the/
-        newMember = await webhookMessage.guild?.members?.fetch(registeredUser.discordId);
+        newMember = (
+          await webhookMessage.guild?.members?.fetch(registeredUser.discordId) as GuildMember
+        );
 
         const { VERIFIED_ROLE_ID } = process.env;
 
@@ -39,14 +41,30 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
         // Issues I encountered:
         // 1. The user is not in the guild
         // 2. Missing Permissions: https://stackoverflow.com/q/62360928
-        await newMember!.roles.add(VERIFIED_ROLE_ID!);
+        await newMember.roles.add(VERIFIED_ROLE_ID!);
 
         webhookMessage.react('👌');
-        newMember!.send(
-          'Bienvenido al Discord de la FISI!!!\n\n'
-          + 'Has desbloqueado todo el servidor, gracias por registrarte.\n'
-          + '`#ProyectoDiscordDeLaFISI`',
-        ).catch(() => {});
+
+        const { WELCOME_CHANNEL_ID } = process.env;
+        const welcomeChannel = webhookMessage.guild?.channels.cache.get(WELCOME_CHANNEL_ID!);
+
+        if (welcomeChannel && welcomeChannel.isTextBased()) {
+          const welcomeMessage = await welcomeChannel.send({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `<@!${newMember.id}> ha superado todas nuestras pruebas y ha aparecido en el servidor!!`,
+                )
+                .setAuthor({
+                  name: 'Nuevo miembro!!! 🎉',
+                  iconURL: 'https://media.discordapp.net/attachments/744860318743920711/962177397262811136/9619_GhostWave.gif',
+                })
+                .setThumbnail(newMember.user.displayAvatarURL())
+                .setColor('Blue'),
+            ],
+          });
+          welcomeMessage.react('👋');
+        }
 
         // Save user to db
         await collections.registrations?.insertOne(registeredUser);
