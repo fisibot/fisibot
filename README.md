@@ -1,20 +1,12 @@
-<p align="center">
-    <img src="./public/botprofile.png" width=100 height=100 style="float: left; margin-right: 12px;"/>
-</p>
-<h1 align="left" style="border: none; margin-bottom: 0;">
-    Fisibot
-</h1>
-<p>
-    El bot de Discord de la Facultad de Ingeniería de Sistemas e Informática,
-    UNMSM
-</p>
+<img src="./public/botprofile.png" width=100 height=100 style="float: left; margin-right: 12px;"/>
 
-<p align="left">
-    <img src="https://img.shields.io/static/v1?label=Made%20with&message=Discord.js&color=5865F2&logo=Discord&logoColor=white&labelColor=black"/>
-    <img src="https://img.shields.io/static/v1?label=hosted by&message=render.com&logo=Render&logoColor=white&labelColor=black&color=175947"/>
-    <img src="https://img.shields.io/github/package-json/v/fisibot/fisibot?labelColor=black&color=8a4641"/>
+<h1 align="left" style="border: none; margin-bottom: 0;">Fisibot</h1>
+<p>El bot de Discord de la Facultad de Ingeniería de Sistemas e Informática, UNMSM</p>
 
-</p>
+<!-- Badges -->
+<img src="https://img.shields.io/static/v1?label=Made%20with&message=Discord.js&color=5865F2&logo=Discord&logoColor=white&labelColor=black"/>
+<img src="https://img.shields.io/static/v1?label=hosted by&message=render.com&logo=Render&logoColor=white&labelColor=black&color=175947"/>
+<img src="https://img.shields.io/github/package-json/v/fisibot/fisibot?labelColor=black&color=8a4641"/>
 
 ---
 
