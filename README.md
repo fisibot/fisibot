@@ -11,8 +11,6 @@ El bot de Discord de la Facultad de Ingeniería de Sistemas e Informática, UNMS
 ![Version](https://img.shields.io/github/package-json/v/fisibot/fisibot?label=version&labelColor=black&color=8a4641)
 
 
----
-
 Fisibot será el encargado del registro, la moderación y la administración
 del futuro servidor de Discord de la FISI. Un proyecto de los estudiantes,
 para los estudiantes.
