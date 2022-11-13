@@ -20,6 +20,14 @@ export default class RegisteredMember {
     this.base = member.base;
     this.discordId = member.discordId;
   }
+
+  public equivalentTo(member: RegisteredMember): boolean {
+    return (
+      this.discordId === member.discordId
+      && this.studentCode === member.studentCode
+      && this.gmail === member.gmail
+    );
+  }
 }
 
 export const COLLECTION_NAME = 'registrations';
