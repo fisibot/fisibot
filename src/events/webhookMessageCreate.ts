@@ -16,7 +16,7 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
 
     const webhookMessage = message; // rename for clarity
 
-    if (message.content === '`DEV:#!fisibot/registrations`') {
+    if (message.content === '`#!fisibot/registrations`') {
       const { fields } = webhookMessage.embeds[0];
       const registeredUser = new RegisteredMember(embedFieldsToJSON(fields) as RegisteredMember);
       registeredUser.base = Number(registeredUser.base); // base del alumno
