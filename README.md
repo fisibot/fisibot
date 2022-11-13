@@ -1,6 +1,6 @@
-<img src="./public/botprofile.png" width=100 height=100 style="float: left; margin: 0 12px 0 0;"/>
+<img src="./public/botprofile.png" width=150 height=150 style="float: left; margin: 0 12px 0 0;"/>
 
-<h1 style="border: none; margin-bottom: 0;">Fisibot</h1>
+# Fisibot
 <p>El bot de Discord de la Facultad de Ingeniería de Sistemas e Informática, UNMSM</p>
 
 <!-- Badges -->
