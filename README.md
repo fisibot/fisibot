@@ -6,9 +6,15 @@
         El bot de Discord de la Facultad de Ingeniería de Sistemas e Informática, UNMSM
     </p>
     <p>
-        <img src="https://img.shields.io/static/v1?label=Made%20with&message=Discord.js&color=5865F2&logo=Discord&logoColor=white&labelColor=black"/>
-        <img src="https://img.shields.io/static/v1?label=hosted by&message=render.com&logo=Render&logoColor=white&labelColor=black&color=175947"/>
-        <img src="https://img.shields.io/github/package-json/v/fisibot/fisibot?labelColor=black&color=8a4641"/>
+        <a href="https://discord.js.org/">
+            <img src="https://img.shields.io/static/v1?label=Made%20with&message=Discord.js&color=5865F2&logo=Discord&logoColor=white&labelColor=black"/>
+        </a>
+        <a href="https://render.com/">
+            <img src="https://img.shields.io/static/v1?label=hosted by&message=render.com&logo=Render&logoColor=white&labelColor=black&color=175947"/>
+        </a>
+        <a href="https://github.com/fisibot/fisibot">
+            <img src="https://img.shields.io/github/package-json/v/fisibot/fisibot?labelColor=black&color=8a4641"/>
+        </a>
     </p>
 </div>
   
