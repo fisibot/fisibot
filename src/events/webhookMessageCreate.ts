@@ -16,7 +16,12 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
 
     const webhookMessage = message; // rename for clarity
 
-    if (message.content === '`#!fisibot/registrations`') {
+    // Forms responses are sent as embeds with 5 fields
+    // To listen for that embeds, the embed content must be "#!fisibot/registrations" (shebang)
+    const prefix = (process.env.NODE_ENV === 'production' ? '' : 'DEV:');
+    const formsShebang = `\`${prefix}#!fisibot/registrations\``;
+
+    if (webhookMessage.content === formsShebang) {
       const { fields } = webhookMessage.embeds[0];
       const registeredUser = new RegisteredMember(embedFieldsToJSON(fields) as RegisteredMember);
       registeredUser.base = Number(registeredUser.base); // base del alumno
