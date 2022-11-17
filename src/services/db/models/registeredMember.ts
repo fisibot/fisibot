@@ -31,34 +31,3 @@ export default class RegisteredMember {
 }
 
 export const COLLECTION_NAME = 'registrations';
-
-export const SCHEMA_VALIDATOR = {
-  $jsonSchema: {
-    bsonType: 'object',
-    required: ['fullname', 'studentCode', 'discordId', 'base', 'gmail'],
-    additionalProperties: false,
-    properties: {
-      _id: {},
-      gmail: {
-        bsonType: 'string',
-        description: 'must be a string and is required',
-      },
-      base: {
-        bsonType: 'number',
-        description: 'must be an integer and is required',
-      },
-      fullname: {
-        bsonType: 'string',
-        description: "'name' is required and is a string",
-      },
-      studentCode: {
-        bsonType: 'string',
-        description: "'price' is required and is a number",
-      },
-      discordId: {
-        bsonType: 'string',
-        description: "'category' is required and is a string",
-      },
-    },
-  },
-};
