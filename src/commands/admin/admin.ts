@@ -6,6 +6,7 @@ import setupVerificationsSubcommand from '@commands/admin/setup-verifications';
 import showRegistrationsSubcommand from '@commands/admin/show-registrations';
 import embedSubcommand from '@commands/admin/embed';
 import editEmbedSubcommand from '@commands/admin/edit-embed';
+import destroyProcessSubcommand from '@commands/admin/destroy';
 
 const admin: FisiSlashCommandWithSubcommands = {
   data: new SlashCommandBuilder()
@@ -14,7 +15,8 @@ const admin: FisiSlashCommandWithSubcommands = {
     .addSubcommand(setupVerificationsSubcommand.data)
     .addSubcommand(showRegistrationsSubcommand.data)
     .addSubcommand(embedSubcommand.data)
-    .addSubcommand(editEmbedSubcommand.data),
+    .addSubcommand(editEmbedSubcommand.data)
+    .addSubcommand(destroyProcessSubcommand.data),
 
   run: async (interaction: ChatInputCommandInteraction) => {
     const subcommand = interaction.options.getSubcommand(true);
@@ -30,6 +32,9 @@ const admin: FisiSlashCommandWithSubcommands = {
     }
     if (subcommand === 'edit-embed') {
       return editEmbedSubcommand.run(interaction);
+    }
+    if (subcommand === 'destroy') {
+      return destroyProcessSubcommand.run(interaction);
     }
     return interaction.reply({
       content: 'Unknown subcommand',

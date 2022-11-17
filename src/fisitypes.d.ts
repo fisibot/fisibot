@@ -13,7 +13,7 @@ import {
 interface FisiSlashCommandObject {
   data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandSubcommandBuilder;
   run: (interaction: ChatInputCommandInteraction) => (
-    Promise<InteractionResponse<boolean>>
+    Promise<InteractionResponse<boolean> | void>
   );
 }
 
