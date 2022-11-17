@@ -26,6 +26,9 @@ async function serverStatusEmbed(client: Client<true>): Promise<EmbedBuilder> {
     hours: Math.floor(client.uptime / 1000 / 60 / 60),
   };
 
+  const { RENDER_GIT_REPO_SLUG, RENDER_GIT_COMMIT } = process.env;
+  const COMMIT_URL = `https://github.com/${RENDER_GIT_REPO_SLUG}/commit/${RENDER_GIT_COMMIT}`;
+
   return new EmbedBuilder()
     .setTitle('Fisibot server status')
     .setThumbnail(client.user.avatarURL())
@@ -54,12 +57,12 @@ async function serverStatusEmbed(client: Client<true>): Promise<EmbedBuilder> {
         inline: true,
       },
       {
-        name: 'Runtime',
-        value: codeBlock(`Node.js ${process.version}`),
+        name: 'Commit deployed',
+        value: `> [${RENDER_GIT_COMMIT}](${COMMIT_URL})`,
       },
     )
     .setFooter({
-      text: `Fisibot 1.0.0 | Discord.js ${version}`,
+      text: `Fisibot 1.0.0 | Discord.js ${version} | Node.js ${process.version}`,
     })
     .setColor('Blue');
 }
