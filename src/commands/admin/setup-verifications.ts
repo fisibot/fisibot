@@ -1,16 +1,22 @@
 import {
-  TextChannel,
-  ChatInputCommandInteraction,
   SlashCommandSubcommandBuilder,
-  DiscordAPIError,
+  ChatInputCommandInteraction,
+  AttachmentBuilder, DiscordAPIError, TextChannel,
 } from 'discord.js';
 import { FisiSlashSubcommand } from '@fisitypes';
 import registrationButton from '@components/registration-button';
 
 const sendVerificationMessage = async (channel: TextChannel) => {
+  const attachment = new AttachmentBuilder('src/assets/banners/verification.png');
   await channel.send({
-    content: '¡Bienvenido a la FISI! Regístrate antes de acceder a nuestros canales',
+    embeds: [{
+      title: '<:fisi:1033062991035375666> Facultad de Ingeniería de Sistemas e Informática <:fisi:1033062991035375666>',
+      description: 'Has llegado al servidor oficial de la FISI UNMSM\n\n'
+        + 'El camino fue largo, sin embargo, queda un último paso\n\n'
+        + '・ Regístrate para desbloquear todo el servidor',
+    }],
     components: [registrationButton()],
+    files: [attachment],
   });
 };
 
