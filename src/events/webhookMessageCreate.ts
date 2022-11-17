@@ -74,11 +74,11 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
       }
 
       if (!fetchedCarnetName && carnetPageIsOk) {
-        webhookMessage.react('❌');
-        let errorMessage = `Error: The student code \`${registeredUser.studentCode}\` is not valid.`;
+        webhookMessage.react('⚠️');
+        let errorMessage = `❌ No pudo encontrarse el código \`${registeredUser.studentCode}\``;
         const cantDMError = await sendDMToUser(
           newGuildMember,
-          'El código de estudiante que ingresaste no existe en la Fisi.'
+          'El código de estudiante que ingresaste no existe en la Fisi.\n'
             + 'Por favor, revisa que tu código sea correcto y vuelve a intentarlo.',
         );
         if (cantDMError) {
@@ -133,7 +133,7 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
 
           const cantDMError = await sendDMToUser(
             newGuildMember,
-            'El código de estudiante que ingresaste no pudo.'
+            'El código de estudiante que ingresaste no pudo.\n'
               + 'Por favor, revisa que tu código sea correcto y vuelve a intentarlo.',
           );
           if (cantDMError) {
@@ -339,9 +339,9 @@ async function verifyNewGuildMember(newGuildMember: GuildMember): Promise<string
     // Send error feedback to the user
     const cantDMError = await sendDMToUser(
       newGuildMember,
-      'El equipo de FisiBot ha sufrido un problema (nuestro) al registrarte.\n\n'
-      + 'Estamos (_claramente_) solucionando el problema, pero mientras tanto, '
-      + 'puedes contactar a un administrador para que te registre manualmente.',
+      'El equipo de FisiBot ha sufrido un problema (nuestro) al registrarte\n\n'
+      + 'Ha ocurrido un error al darte el rol verificado\n'
+      + 'Por favor, abre un ticket en el canal <#1042710855776731238>',
     );
     errorMessage += cantDMError
       ? `. Could not send DM to \`${newGuildMember.id}\``
