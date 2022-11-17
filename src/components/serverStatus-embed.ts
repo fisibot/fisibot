@@ -26,8 +26,10 @@ async function serverStatusEmbed(client: Client<true>): Promise<EmbedBuilder> {
     hours: Math.floor(client.uptime / 1000 / 60 / 60),
   };
 
-  const { RENDER_GIT_REPO_SLUG, RENDER_GIT_COMMIT } = process.env;
-  const COMMIT_URL = `https://github.com/${RENDER_GIT_REPO_SLUG}/commit/${RENDER_GIT_COMMIT}`;
+  const { RAILWAY_GIT_COMMIT_MESSAGE, RENDER_GIT_COMMIT, RAILWAY_GIT_COMMIT_SHA } = process.env;
+
+  const COMMIT_SHA = RENDER_GIT_COMMIT || RAILWAY_GIT_COMMIT_SHA;
+  const COMMIT_URL = `https://github.com/fisibot/fisibot/commit/${COMMIT_SHA}`;
 
   return new EmbedBuilder()
     .setTitle('Fisibot server status')
@@ -58,7 +60,7 @@ async function serverStatusEmbed(client: Client<true>): Promise<EmbedBuilder> {
       },
       {
         name: 'Commit deployed',
-        value: `<:github:1042897846283796503>︱[${RENDER_GIT_COMMIT}](${COMMIT_URL})`,
+        value: `<:github:1042897846283796503>︱[${RAILWAY_GIT_COMMIT_MESSAGE ?? COMMIT_SHA}](${COMMIT_URL})`,
       },
     )
     .setFooter({
