@@ -2,8 +2,7 @@ import {
   CacheType, DiscordAPIError, Events, Interaction,
 } from 'discord.js';
 import { FisiClientEventObject } from '@fisitypes';
-import formsMemberDMEmbed from '@components/forms-DM-embed';
-import formsUrlButton from '@components/forms-url-button';
+import formsMemberDMEmbed from '@components/forms-DM-message';
 
 const buttonPressedHandler: FisiClientEventObject<Events.InteractionCreate> = {
   eventName: Events.InteractionCreate,
@@ -11,10 +10,11 @@ const buttonPressedHandler: FisiClientEventObject<Events.InteractionCreate> = {
     if (!interaction.isButton()) return;
 
     if (interaction.customId === 'registration-button') {
+      const { formsEmbed, formsButton } = formsMemberDMEmbed({ user_id: interaction.user.id });
       try {
         await interaction.user.send({
-          embeds: [formsMemberDMEmbed()],
-          components: [formsUrlButton({ user_id: interaction.user.id })],
+          embeds: [formsEmbed],
+          components: [formsButton],
         });
         await interaction.deferReply();
         await interaction.deleteReply();
@@ -25,8 +25,8 @@ const buttonPressedHandler: FisiClientEventObject<Events.InteractionCreate> = {
         // TODO: Send DM request
         if (error instanceof DiscordAPIError) {
           await interaction.reply({
-            embeds: [formsMemberDMEmbed()],
-            components: [formsUrlButton({ user_id: interaction.user.id })],
+            embeds: [formsEmbed],
+            components: [formsButton],
             ephemeral: true,
           });
         }
