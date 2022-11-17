@@ -58,11 +58,11 @@ async function serverStatusEmbed(client: Client<true>): Promise<EmbedBuilder> {
       },
       {
         name: 'Commit deployed',
-        value: `> [${RENDER_GIT_COMMIT}](${COMMIT_URL})`,
+        value: `<:github:1042897846283796503>︱[${RENDER_GIT_COMMIT}](${COMMIT_URL})`,
       },
     )
     .setFooter({
-      text: `Fisibot 1.0.0 | Discord.js ${version} | Node.js ${process.version}`,
+      text: `ㅤ\nFisibot 1.0.0 | Discord.js ${version} | Node.js ${process.version}`,
     })
     .setColor('Blue');
 }
