@@ -167,10 +167,11 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
 
         if (welcomeChannel && welcomeChannel.isTextBased()) {
           const welcomeMessage = await welcomeChannel.send({
+            content: `<@${newGuildMember.id}>`,
             embeds: [
               new EmbedBuilder()
                 .setDescription(
-                  `<@${newGuildMember.id}> ha superado todas nuestras pruebas y ha aparecido en el servidor!!`,
+                  `**${newGuildMember.user.username}** ha superado todas nuestras pruebas y ha aparecido en el servidor!!`,
                 )
                 .setAuthor({
                   name: 'Nuevo miembro!!! 🎉',
@@ -226,10 +227,11 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
 
         if (welcomeChannel && welcomeChannel.isTextBased()) {
           const welcomeMessage = await welcomeChannel.send({
+            content: `<@${newGuildMember.id}>`,
             embeds: [
               new EmbedBuilder()
                 .setDescription(
-                  `<@${newGuildMember.id}> ha regresado al servidor!!`,
+                  `**${newGuildMember.user.username}** ha regresado al servidor!!`,
                 )
                 .setAuthor({
                   name: `${newGuildMember.user.username}... ha... vuelto...`,
