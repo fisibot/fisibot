@@ -56,6 +56,12 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
         return;
       }
 
+      if (newGuildMember.user.bot) {
+        webhookMessage.react('❓️');
+        webhookMessage.reply(`El usuario \`${registeredUser.discordId}\` es un bot`);
+        return;
+      }
+
       let fetchedCarnetName: string | undefined;
       let carnetPageIsOk: boolean | undefined;
       try {
@@ -70,7 +76,7 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
       if (!fetchedCarnetName && carnetPageIsOk) {
         webhookMessage.react('❌');
         let errorMessage = `Error: The student code \`${registeredUser.studentCode}\` is not valid.`;
-        const cantDMError = sendDMToUser(
+        const cantDMError = await sendDMToUser(
           newGuildMember,
           'El código de estudiante que ingresaste no existe en la Fisi.'
             + 'Por favor, revisa que tu código sea correcto y vuelve a intentarlo.',
@@ -125,7 +131,7 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
           let errorMessage = `❌ Este código de estudiante le pertenece a \`${fetchedCarnetName}\`\n`
             + `No hemos podido encontrar similitud con \`${registeredUser.gmail}\``;
 
-          const cantDMError = sendDMToUser(
+          const cantDMError = await sendDMToUser(
             newGuildMember,
             'El código de estudiante que ingresaste no pudo.'
               + 'Por favor, revisa que tu código sea correcto y vuelve a intentarlo.',
@@ -331,7 +337,7 @@ async function verifyNewGuildMember(newGuildMember: GuildMember): Promise<string
     let errorMessage = `API error when registering: ${apiError}`;
     // Send error feedback to the user
     // Send error feedback to the user
-    const cantDMError = sendDMToUser(
+    const cantDMError = await sendDMToUser(
       newGuildMember,
       'El equipo de FisiBot ha sufrido un problema (nuestro) al registrarte.\n\n'
       + 'Estamos (_claramente_) solucionando el problema, pero mientras tanto, '

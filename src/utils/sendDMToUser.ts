@@ -5,9 +5,9 @@ import {
 type MessageToUser = string | MessageCreateOptions | MessagePayload;
 
 // eslint-disable-next-line import/prefer-default-export
-export function sendDMToUser(user: GuildMember, message: MessageToUser): DiscordAPIError | null {
+export async function sendDMToUser(user: GuildMember, message: MessageToUser) {
   try {
-    user.send(message);
+    await user.send(message);
   }
   catch (error) {
     if (error instanceof DiscordAPIError) {
