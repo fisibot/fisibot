@@ -45,6 +45,16 @@ const buttonPressedHandler: FisiClientEventObject<Events.InteractionCreate> = {
       // }
       // else interaction.showModal(registrationModal());
     }
+    else if (interaction.customId === 'confirm-send-embed-button') {
+      await interaction.deferReply();
+      await interaction.deleteReply();
+      // resend interaction message
+      const messageToResend = interaction.message;
+      messageToResend.channel.send({
+        content: messageToResend.content,
+        embeds: messageToResend.embeds,
+      });
+    }
   },
 };
 
