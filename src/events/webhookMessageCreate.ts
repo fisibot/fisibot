@@ -166,7 +166,7 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
         const welcomeChannel = webhookMessage.guild?.channels.cache.get(WELCOME_CHANNEL_ID!);
 
         if (welcomeChannel && welcomeChannel.isTextBased()) {
-          const welcomeMessage = await welcomeChannel.send({
+          await welcomeChannel.send({
             content: `<@${newGuildMember.id}>`,
             embeds: [
               new EmbedBuilder()
@@ -181,7 +181,6 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
                 .setColor('Blue'),
             ],
           });
-          welcomeMessage.react('👋');
         }
         else {
           // TODO: Log warning: welcome channel not found
@@ -226,7 +225,7 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
         const welcomeChannel = webhookMessage.guild?.channels.cache.get(WELCOME_CHANNEL_ID!);
 
         if (welcomeChannel && welcomeChannel.isTextBased()) {
-          const welcomeMessage = await welcomeChannel.send({
+          await welcomeChannel.send({
             content: `<@${newGuildMember.id}>`,
             embeds: [
               new EmbedBuilder()
@@ -241,7 +240,6 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
                 .setColor('Blue'),
             ],
           });
-          welcomeMessage.react('👋');
         }
         webhookMessage.react('👌');
         webhookMessage.react('👋');
