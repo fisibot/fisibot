@@ -10,7 +10,7 @@ const SlashCommandHandler: FisiClientEventObject<Events.InteractionCreate> = {
     if (!interaction.isChatInputCommand()) return;
 
     const { commandName } = interaction;
-    console.log('Slash command used:', commandName);
+    console.log(`${interaction.user.tag} used /${commandName}`);
 
     if (botCommands[commandName]) {
       await botCommands[commandName].run(interaction);
