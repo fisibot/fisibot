@@ -12,7 +12,7 @@ function memberEmbed(member: RegisteredMember) {
   const stringDate = timestamp?.toLocaleString('es-ES', { timeZone: 'America/Lima' });
 
   return {
-    description: `<@${member.discordId}>\n`
+    description: `/whois <@${member.discordId}>\n`
       + `\`${member.fullname}\`\n`
       + `\`${member.gmail}\`\n`
       + `\`${member.studentCode}\`\n`
@@ -23,67 +23,35 @@ function memberEmbed(member: RegisteredMember) {
 const whoisSubcommand: FisiSlashSubcommand = {
   data: new SlashCommandSubcommandBuilder()
     .setName('whois')
-    .setDescription('Busca a un estudiante en el servidor')
-    .addStringOption((studentCode) => studentCode
-      .setName('query')
-      .setDescription('Código de estudiante o correo institucional')
-      .setRequired(true)),
+    .setDescription('¿Quién es este usuario?')
+    .addUserOption((studentCode) => studentCode
+      .setName('miembro')
+      .setDescription('@Miembro del servidor')
+      .setRequired(true))
+    .addBooleanOption((publicOutput) => publicOutput
+      .setName('visible-para-todos')
+      .setDescription('Todos pueden ver el resultado (desactivado por defecto)')
+      .setRequired(false)),
 
   run: async (interaction: ChatInputCommandInteraction) => {
-    const query = interaction.options.getString('query', true);
+    const member = interaction.options.getUser('miembro', true);
+    const publicOutput = interaction.options.getBoolean('visible-para-todos', false);
 
-    // match student codes
-    if (/^[0-2][0-9]20\d{4}$/.test(query)) {
-      const studentCode = query;
-      const search = (
-        await collections.registrations?.find<RegisteredMember>({ studentCode }).toArray()
-      );
+    const search = (
+      await collections.registrations?.find<RegisteredMember>({ discordId: member.id }).toArray()
+    );
 
-      if (search?.length) {
-        await interaction.reply({
-          embeds: search.map(memberEmbed),
-        });
-        return;
-      }
+    if (search?.length) {
       await interaction.reply({
-        embeds: [{ description: `Código \`${studentCode}\` no encontrado en el servidor` }],
-        ephemeral: true,
+        embeds: search.map(memberEmbed),
+        ephemeral: !publicOutput,
       });
       return;
     }
-    // match:
-    // institucional emails like 'nombre.apellido#@unmsm.edu.pe'
-    // gmail users          like 'nombre.apellido#'
-    if (/^[a-z]+\.[a-z]+(\d+)?(@unmsm\.edu\.pe)?$/.test(query)) {
-      const gmail = query.endsWith('@unmsm.edu.pe') ? query : `${query}@unmsm.edu.pe`;
-      const search = (
-        await collections.registrations?.find<RegisteredMember>({ gmail }).toArray()
-      );
-
-      if (search?.length) {
-        await interaction.reply({
-          embeds: search.map(memberEmbed),
-        });
-        return;
-      }
-      await interaction.reply({
-        embeds: [{ description: `Correo \`${gmail}\` no encontrado en el servidor` }],
-        ephemeral: true,
-      });
-    }
-    else {
-      await interaction.reply({
-        embeds: [{
-          description: '**Query inválida**\n'
-            + 'Prueba una de las siguientes:\n'
-            + '・ `/admin whois 21200xxx`\n'
-            + '・ `/admin whois nombre.apellido#@unmsm.edu.pe`\n'
-            + '・ `/admin whois nombre.apellido#`',
-
-        }],
-        ephemeral: true,
-      });
-    }
+    await interaction.reply({
+      embeds: [{ description: `${member} no ha sido encontrado en la base de registros` }],
+      ephemeral: true,
+    });
   },
 };
 
