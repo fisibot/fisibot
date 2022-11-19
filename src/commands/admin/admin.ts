@@ -9,6 +9,7 @@ import editEmbedSubcommand from '@commands/admin/edit-embed';
 import destroyProcessSubcommand from '@commands/admin/destroy';
 import whoisSubcommand from '@commands/admin/whois';
 import findStudentSubcommand from '@commands/admin/find';
+import addRolesSubcommand from '@commands/admin/addroles';
 
 const admin: FisiSlashCommandWithSubcommands = {
   data: new SlashCommandBuilder()
@@ -20,7 +21,8 @@ const admin: FisiSlashCommandWithSubcommands = {
     .addSubcommand(editEmbedSubcommand.data)
     .addSubcommand(destroyProcessSubcommand.data)
     .addSubcommand(whoisSubcommand.data)
-    .addSubcommand(findStudentSubcommand.data),
+    .addSubcommand(findStudentSubcommand.data)
+    .addSubcommand(addRolesSubcommand.data),
 
   run: async (interaction: ChatInputCommandInteraction) => {
     const subcommand = interaction.options.getSubcommand(true);
@@ -45,6 +47,9 @@ const admin: FisiSlashCommandWithSubcommands = {
     }
     if (subcommand === 'whois') {
       return whoisSubcommand.run(interaction);
+    }
+    if (subcommand === 'addroles') {
+      return addRolesSubcommand.run(interaction);
     }
     return interaction.reply({
       content: 'Unknown subcommand',
