@@ -10,6 +10,7 @@ import { sendDMToUser } from '@utils/sendDMToUser';
 import { embedFieldsToJSON } from '@utils/embedFieldsToJSON';
 import { carnetNameRequest } from '@utils/carnetRequest';
 import { getPossibleEmails } from '@utils/validation';
+import { randomWelcomeMessage } from '@utils/random';
 
 // Forms responses are received from webhooks,
 // so this is a MessageCreate event with some extra checks
@@ -193,7 +194,10 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
             embeds: [
               new EmbedBuilder()
                 .setDescription(
-                  `**${newGuildMember.user.username}** ha superado todas nuestras pruebas y ha aparecido en el servidor!!`,
+                  randomWelcomeMessage(
+                    newGuildMember.user.username,
+                    newGuildMember.guild.memberCount,
+                  ),
                 )
                 .setAuthor({
                   name: 'Nuevo miembro!!! 🎉',
@@ -259,7 +263,7 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
                 )
                 .setAuthor({
                   name: `${newGuildMember.user.username}... ha... vuelto...`,
-                  iconURL: 'https://static.wikia.nocookie.net/floppapedia-revamped/images/6/64/RREFCC.jpg/revision/latest?cb=20210705233223',
+                  iconURL: 'https://lh3.googleusercontent.com/7j6lLbegod9J89gqdGhdaZvhEY0mBIyUh9wT7yUX5pLbZeeQ-1T11h8hav0nGxdPNKM=w2400',
                 })
                 .setThumbnail(newGuildMember.user.displayAvatarURL())
                 .setColor('Blue'),
