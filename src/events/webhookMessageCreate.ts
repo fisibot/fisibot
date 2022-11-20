@@ -78,8 +78,18 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
         let errorMessage = `❌ No pudo encontrarse el código \`${registeredUser.studentCode}\``;
         const cantDMError = await sendDMToUser(
           newGuildMember,
-          'El código de estudiante que ingresaste no existe en la Fisi.\n'
-            + 'Por favor, revisa que tu código sea correcto y vuelve a intentarlo.',
+          {
+            embeds: [
+              {
+                title: '<:fisi:1033062991035375666> FISI - Verificaciones <:fisi:1033062991035375666>',
+                description: `:x: El código de estudiante \`${registeredUser.studentCode}\` no existe en la Fisi\n\n`
+                + '**¿Crees que se trata de un error?**\n'
+                + 'Si es así, abre un ticket de ayuda <#1042710855776731238> y lo solucionaremos\n\n'
+                + '_Psst, ¿no eres de la FISI y te gustaría entrar? También queremos escucharte_',
+                color: 9256510,
+              },
+            ],
+          },
         );
         if (cantDMError) {
           errorMessage += ` Could not send DM to \`${registeredUser.discordId}\``;
@@ -133,8 +143,18 @@ const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
 
           const cantDMError = await sendDMToUser(
             newGuildMember,
-            'El código de estudiante que ingresaste no pudo.\n'
-              + 'Por favor, revisa que tu código sea correcto y vuelve a intentarlo.',
+            {
+              embeds: [
+                {
+                  title: '<:fisi:1033062991035375666> FISI - Verificaciones <:fisi:1033062991035375666>',
+                  description: ':x: Tus datos no han podido ser validados como estudiante de la FISI\n\n'
+                    + `El código \`${registeredUser.studentCode}\` te pertenece?`
+                    + '\nSi es así, por favor abre un ticket de ayuda en <#1042710855776731238>,\n\n'
+                    + '_Es posible que existan problemas con ciertos čäractěreš o nombres compuestos_',
+                  color: 9256510,
+                },
+              ],
+            },
           );
           if (cantDMError) {
             errorMessage += ` Could not send DM to \`${registeredUser.discordId}\``;
@@ -340,8 +360,8 @@ async function verifyNewGuildMember(newGuildMember: GuildMember): Promise<string
     const cantDMError = await sendDMToUser(
       newGuildMember,
       'El equipo de FisiBot ha sufrido un problema (nuestro) al registrarte\n\n'
-      + 'Ha ocurrido un error al darte el rol verificado\n'
-      + 'Por favor, abre un ticket en el canal <#1042710855776731238>',
+      + 'Ha ocurrido un error al darte el rol `Fisi` de verificación\n'
+      + 'Esto no debería pasar. Por favor abre un ticket en el canal <#1042710855776731238>',
     );
     errorMessage += cantDMError
       ? `. Could not send DM to \`${newGuildMember.id}\``
