@@ -13,11 +13,14 @@ export function randomWelcomeMessage(username: string, memberCount: number) {
     `Todos sabíamos que **${username}** iba a llegar algún día`,
     `**${username}** ha llegado al servidor, el miembro número ${memberCount}`,
     `**${username}** ha entrado al servidor :scream_cat:`,
-    `:hola: **${username}**, bienvenido a la Facultad de Ingeniería de Sistemas e Informática`,
+    `<:hola:1043394204069548122> **${username}**, bienvenido a la Facultad de Ingeniería de Sistemas e Informática`,
     `Bienvenido al servidor de la facultad, **${username}** <a:navisus:1042491314538811452>`,
-    `**${username}** es el miembro número ${memberCount} :pikafisi:`,
-    `El miembro número ${memberCount} ha llegado, **${username}** :gatosentado: :gatosentado:`,
+    `**${username}** es el miembro número ${memberCount} <:pikafisi:1043398715379023903>`,
+    `El miembro número ${memberCount} ha llegado, **${username}** <:gatosentado:1041203218031579157> <:gatosentado:1041203218031579157>`,
     `<a:navibongo:1042495901194780692> **${username}** ha llegado al servidor de la FISI`,
+    `Todos hemos estado esperando a **${username}**, verdad? <:blob:1043448593471778887>`,
+    `Finalmente, **${username}** <:mirada2:1043681484868964403>`,
+    `**${username}** finalmente llegó <:blob:1043448593471778887>`,
   ];
   return randomChoose(messages);
 }
