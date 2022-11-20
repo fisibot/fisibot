@@ -11,7 +11,9 @@ import { embedFieldsToJSON } from '@utils/embedFieldsToJSON';
 import { carnetNameRequest } from '@utils/carnetRequest';
 import { getPossibleEmails } from '@utils/validation';
 
-const MessageCreateHandler: FisiClientEventObject<Events.MessageCreate> = {
+// Forms responses are received from webhooks,
+// so this is a MessageCreate event with some extra checks
+const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
   eventName: Events.MessageCreate,
   handle: async (message: Message) => {
     if (!message.webhookId) return;
@@ -372,4 +374,4 @@ async function verifyNewGuildMember(newGuildMember: GuildMember): Promise<string
   return undefined;
 }
 
-export default MessageCreateHandler;
+export default formsResponseHandler;
