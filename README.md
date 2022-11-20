@@ -21,6 +21,11 @@
   
 ---
 
+- [📦️ Sobre el proyecto](#️-sobre-el-proyecto)
+- [✨ Contribuciones](#-contribuciones)
+- [❓️ FAQ](#️-faq)
+  - [¿Cómo funciona el sistema de verificaciones?](#cómo-funciona-el-sistema-de-verificaciones)
+
 Fisibot es el encargado del registro, la moderación y la administración
 del servidor de Discord de la FISI. Un proyecto de los estudiantes,
 para los estudiantes.
@@ -53,3 +58,29 @@ el desarrollo de Fisibot, este proyecto se mantendrá vivo gracias a sus contrib
 
 - Discord de la FISI
 ```
+
+## ❓️ FAQ
+
+Preguntas frecuentes sobre Fisibot y el servidor de la FISI
+
+### ¿Cómo funciona el sistema de verificaciones?
+
+Cada vez que un usuario envía un formulario, Fisibot recibe los
+datos necesarios y empieza la validación
+
+El nombre completo y el correo institucional del estudiante deben coincidir
+de alguna forma, esto es:
+
+> Sea el estudiante `Nombre1 Nombre2 Apellido1 Apellido2`, Fisibot espera
+> que su correo tenga la forma `nombre1.apellido1@unmsm.edu.pe`
+> 
+> Sin embargo, este caso es muy básico. Fisibot revisa todas las posibles
+> combinaciones de correos que se puedan generar a partir del nombre completo
+> (puede fallar para combinaciones muy complejas)
+
+Notar que Fisibot no recibe tu nombre directamente del formulario, sino que
+lo obtiene a partir de tu código y la base de datos de estudiantes de la UNMSM.
+Esto es muy útil a la hora de encontrar registros falsos.
+
+Esto es gracias a la [Google Forms API](https://developers.google.com/forms)
+y los [webhooks de Discord](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
