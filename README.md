@@ -15,16 +15,13 @@
         <a href="https://github.com/fisibot/fisibot">
             <img src="https://img.shields.io/github/package-json/v/fisibot/fisibot?labelColor=black&color=8a4641"/>
         </a>
+        <a href="https://discord.io/fisi">
+            <img src="https://discordapp.com/api/guilds/1031664179993657375/widget.png?style=shield"/>
+        </a>
     </p>
 </div>
   
-  
 ---
-
-- [📦️ Sobre el proyecto](#️-sobre-el-proyecto)
-- [✨ Contribuciones](#-contribuciones)
-- [❓️ FAQ](#️-faq)
-  - [¿Cómo funciona el sistema de verificaciones?](#cómo-funciona-el-sistema-de-verificaciones)
 
 Fisibot es el encargado del registro, la moderación y la administración
 del servidor de Discord de la FISI. Un proyecto de los estudiantes,
