@@ -7,6 +7,7 @@ async function discordRequest(endpoint: string, method = 'GET') {
     method,
     headers: {
       Authorization: `Bot ${process.env.CLIENT_TOKEN}`,
+      // docs say this is required, but it doesn't seem to be
       // UserAgent: 'DiscordBot ({process.env.WEB_APPLICATION_URL}, 1.0.0)',
     },
   });
