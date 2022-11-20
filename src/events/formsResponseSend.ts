@@ -217,7 +217,10 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
           const mongoError = _error as MongoServerError;
           // Mongo fails, but we have fetched the user
           // TODO: notify mods
-          webhookMessage.reply(`User registered, but could not be saved to DB: ${mongoError.errmsg}. No DM sent.`);
+          webhookMessage.reply(
+            '<@&1039043399581454346>\n'
+            + `User registered, but could not be saved to DB: ${mongoError.errmsg}. No DM alert sent.`,
+          );
           webhookMessage.react('❌');
           webhookMessage.react('⚠️');
         }
@@ -277,7 +280,8 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
         if (verifiedStudentCode) {
           // Send error feedback to the channel
           webhookMessage.reply({
-            content: `✅ El código de estudiante sí le pertenece a \`${fetchedCarnetName}\`\n\n`
+            content: '<@&1039043399581454346>\n'
+              + `✅ El código de estudiante sí le pertenece a \`${fetchedCarnetName}\`\n\n`
               + `❗️ Sin embargo, ${
                 reportEmbeds.length > 1
                   ? `he encontrado ${reportEmbeds.length} registros similares a ese`
@@ -287,16 +291,17 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
           webhookMessage.react('🚨');
         }
         else {
-          webhookMessage.react('🚨');
           webhookMessage.reply({
-            content: `❌ Este código de estudiante le pertenece a \`${fetchedCarnetName}\`\n`
-              + `No hemos podido encontrar similitud con \`${registeredUser.gmail}\`\n\n`
-              + `❗️ Adicionalmente, ${
-                reportEmbeds.length > 1
-                  ? `he encontrado ${reportEmbeds.length} registros similares a ese`
-                  : 'he encontrado un registro similar a ese'}`,
+            content: '<@&1039043399581454346>\n'
+            + `❌ Este código de estudiante le pertenece a \`${fetchedCarnetName}\`\n`
+            + `No hemos podido encontrar similitud con \`${registeredUser.gmail}\`\n\n`
+            + `❗️ Adicionalmente, ${
+              reportEmbeds.length > 1
+                ? `he encontrado ${reportEmbeds.length} registros similares a ese`
+                : 'he encontrado un registro similar a ese'}`,
             embeds: reportEmbeds,
           });
+          webhookMessage.react('🚨');
         }
       }
     }
@@ -356,7 +361,7 @@ async function verifyNewGuildMember(newGuildMember: GuildMember): Promise<string
   }
   catch (_error) {
     const apiError = _error as DiscordAPIError;
-    let errorMessage = `API error when registering: ${apiError}`;
+    let errorMessage = `<@&1039043399581454346> API error when registering: ${apiError}`;
     // Send error feedback to the user
     // Send error feedback to the user
     const cantDMError = await sendDMToUser(
