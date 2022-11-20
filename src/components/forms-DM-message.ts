@@ -13,17 +13,17 @@ function formsMemberDMEmbed({ user_id }: { user_id: string }) {
     formsButton,
     formsEmbed: new EmbedBuilder()
       .setDescription(
-        'Necesitamos recolectar algunos datos para verificarte como estudiante de la FISI\n\n'
-      + `・ Tu id de Discord: \`${user_id}\`\n`
-      + '・ Utiliza tu correo institucional\n',
+        'Completa el siguiente **formulario** para verificarte como **estudiante de la FISI**\n\n'
+      + `・ Esta es tu ID de Discord: \`${user_id}\`\n`
+      + '・ Utiliza tu correo institucional\n\n',
       )
       .setAuthor({
         name: 'Regístrate en el Discord de la FISI',
         iconURL: 'https://media.discordapp.net/attachments/744860318743920711/962177397262811136/9619_GhostWave.gif',
-      })
+      }) // wave animation
       .setThumbnail(
         'https://lh6.googleusercontent.com/saZrjwbbwafGKzPTU_9lWePkGWYLAy6B1ZVP3mg1XzAgqvgL_kFviU-UEL_89GmIRkw=w2400',
-      )
+      ) // google forms logo
       .setColor('Blue'),
   };
 }

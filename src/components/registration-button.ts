@@ -11,7 +11,7 @@ function registrationButton(): ActionRowBuilder<ButtonBuilder> {
   const regbutton2 = new ButtonBuilder()
     .setCustomId('registration-button-cachimbos')
     .setEmoji('1033579475042054205')
-    .setLabel('Registro cachimbos')
+    .setLabel('Registro cachimbos (pronto)')
     .setStyle(ButtonStyle.Secondary)
     .setDisabled(true);
 
