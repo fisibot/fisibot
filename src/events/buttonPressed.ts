@@ -16,11 +16,13 @@ const buttonPressedHandler: FisiClientEventObject<Events.InteractionCreate> = {
           embeds: [formsEmbed],
           components: [formsButton],
         });
-        await interaction.deferReply();
-        await interaction.deleteReply();
+        await interaction.reply({
+          content: 'Te he enviado el formulario por mensaje privado <:fisiflushed:1033579475042054205>',
+          ephemeral: true,
+        });
       }
       catch (error) {
-        console.log('Error sending message to user', error);
+        console.warn('WARN: Can\'t send DM to user, sending to channel instead');
         // If User has DMs disabled
         // TODO: Send DM request
         if (error instanceof DiscordAPIError) {
@@ -30,7 +32,7 @@ const buttonPressedHandler: FisiClientEventObject<Events.InteractionCreate> = {
             ephemeral: true,
           });
         }
-        else console.log(error);
+        else console.log({ error });
       }
 
       // TODO: check if user is already registered
