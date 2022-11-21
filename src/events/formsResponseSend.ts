@@ -65,95 +65,35 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
         return;
       }
 
-      let fetchedCarnetName: string | undefined;
+      // Variables to store the user's carnet data
+      let fetchedCarnet: { fullname: string, faculty: string } | null = null;
       let carnetPageIsOk: boolean | undefined;
+      let isVerifiedStudentCode: boolean | undefined;
+      let isFromFISI: boolean | undefined;
+
       try {
-        fetchedCarnetName = await carnetNameRequest(registeredUser.studentCode);
+        fetchedCarnet = await carnetNameRequest(registeredUser.studentCode);
         carnetPageIsOk = true;
       }
       catch (error) {
-        webhookMessage.react('💀');
+        // Web may be down, or inputs may have changed their id
         carnetPageIsOk = false;
       }
 
-      if (!fetchedCarnetName && carnetPageIsOk) {
-        webhookMessage.react('⚠️');
-        let errorMessage = `❌ No pudo encontrarse el código \`${registeredUser.studentCode}\``;
-        const cantDMError = await sendDMToUser(
-          newGuildMember,
-          {
-            embeds: [
-              {
-                title: '<:fisi:1033062991035375666> FISI - Verificaciones <:fisi:1033062991035375666>',
-                description: `:x: El código de estudiante \`${registeredUser.studentCode}\` no existe en la Fisi\n\n`
-                + '**¿Crees que se trata de un error?**\n'
-                + 'Si es así, abre un ticket de ayuda <#1042710855776731238> y lo solucionaremos\n\n'
-                + '_Psst, ¿no eres de la FISI y te gustaría entrar? También queremos escucharte_',
-                color: 9256510,
-              },
-            ],
-          },
-        );
-        if (cantDMError) {
-          errorMessage += ` Could not send DM to \`${registeredUser.discordId}\``;
-        }
-        webhookMessage.reply(errorMessage);
-        return;
-      }
-
-      let verifiedStudentCode = false;
-      if (!carnetPageIsOk) {
-        // If the carnet page is not ok, the student code is assumed to be valid
-        verifiedStudentCode = true;
-      }
-      if (fetchedCarnetName && carnetPageIsOk) {
-        verifiedStudentCode = (
-          getPossibleEmails(fetchedCarnetName)
-            .some((email) => {
-              console.log('checking if', email, 'is', registeredUser.gmail);
-              const match = registeredUser.gmail.includes(email);
-              console.log({ match });
-              return match;
-            })
-        );
-      }
-      // Discord id was fetched
-
-      // BEFORE VERIFYING
-      // search if the user is already registered
-      // https://mongoplayground.net/p/ireG-B9QiJ0
-      const similarUsers = await collections.registrations?.find<RegisteredMember>({
-        $or: [
-          { discordId: registeredUser.discordId },
-          { studentCode: registeredUser.studentCode },
-          { gmail: registeredUser.gmail },
-        ],
-      }).toArray();
-
-      const userAlreadyRegistered = (
-        similarUsers && similarUsers.length > 0
-      );
-      const isSameUser = (
-        similarUsers && similarUsers.length === 1 && registeredUser.equivalentTo(similarUsers[0])
-      );
-
-      if (!userAlreadyRegistered) {
-        // Check if the student code matches the gmail
-        if (!verifiedStudentCode) {
-          // Can't register an unverified student code
-          let errorMessage = `❌ Este código de estudiante le pertenece a \`${fetchedCarnetName}\`\n`
-            + `No hemos podido encontrar similitud con \`${registeredUser.gmail}\``;
-
+      if (carnetPageIsOk) {
+        if (!fetchedCarnet) {
+          webhookMessage.react('⚠️');
+          let errorMessage = `❌ No pudo encontrarse el código \`${registeredUser.studentCode}\``;
           const cantDMError = await sendDMToUser(
             newGuildMember,
             {
               embeds: [
                 {
                   title: '<:fisi:1033062991035375666> FISI - Verificaciones <:fisi:1033062991035375666>',
-                  description: ':x: Tus datos no han podido ser validados como estudiante de la FISI\n\n'
-                    + `El código \`${registeredUser.studentCode}\` te pertenece?`
-                    + '\nSi es así, por favor abre un ticket de ayuda en <#1042710855776731238>,\n\n'
-                    + '_Es posible que existan problemas con ciertos čäractěreš o nombres compuestos_',
+                  description: `:x: El código de estudiante \`${registeredUser.studentCode}\` no existe en la Fisi\n\n`
+                  + '**¿Crees que se trata de un error?**\n'
+                  + 'Si es así, abre un ticket de ayuda <#1042710855776731238> y lo solucionaremos\n\n'
+                  + '_Psst, ¿no eres de la FISI y te gustaría entrar? También queremos escucharte_',
                   color: 9256510,
                 },
               ],
@@ -163,17 +103,118 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
             errorMessage += ` Could not send DM to \`${registeredUser.discordId}\``;
           }
           webhookMessage.reply(errorMessage);
-          webhookMessage.react('❌');
           return;
         }
+        // The carnet page is ok, and we have the user carnet information
+        // now we have to check if he is a student of the FISI
+        isFromFISI = fetchedCarnet.faculty === 'FACULTAD DE INGENIERÍA DE SISTEMAS E INFORMÁTICA';
+        isVerifiedStudentCode = getPossibleEmails(fetchedCarnet.fullname)
+          .some((email) => {
+            const match = registeredUser.gmail.includes(email);
+            console.log(email, 'match with', registeredUser.gmail, '?', { match });
+            return match;
+          });
+      }
+      else {
+        // If the carnet page is not ok, the student code is assumed to be valid
+        webhookMessage.react('💀');
+        isVerifiedStudentCode = true;
+      }
+      // At this point, user may be verified or not
+      // we are going to check if the user is already registered
+      // so we can detect impersonation attempts and other stuff
+
+      // search if the user is already registered
+      // query to find if unique fields are already in use
+      // See: https://mongoplayground.net/p/ireG-B9QiJ0
+      const similarUsers = await collections.registrations?.find<RegisteredMember>({
+        $or: [
+          { discordId: registeredUser.discordId },
+          { studentCode: registeredUser.studentCode },
+          { gmail: registeredUser.gmail },
+        ],
+      }).toArray();
+
+      // Validation variables
+      const userAlreadyRegistered = similarUsers && similarUsers.length > 0;
+
+      if (!userAlreadyRegistered) {
+        // Check if the student code matches the gmail
+        if (carnetPageIsOk) {
+          // Can't register an unverified student code
+          // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          // DO THE NECCESSARY CHECKS
+          if (!isVerifiedStudentCode) {
+            let errorMessage = `❌ Este código de estudiante le pertenece a \`${fetchedCarnet?.fullname}\`\n`
+              + `No hemos podido encontrar similitud con \`${registeredUser.gmail}\``;
+
+            const cantDMError = await sendDMToUser(
+              newGuildMember,
+              {
+                embeds: [
+                  {
+                    title: '<:fisi:1033062991035375666> FISI - Verificaciones <:fisi:1033062991035375666>',
+                    description: ':x: Tus datos no han podido ser validados como estudiante de la FISI\n\n'
+                      + `El código \`${registeredUser.studentCode}\` te pertenece?\n`
+                      + 'Si es así, por favor abre un ticket de ayuda en <#1042710855776731238>,\n\n'
+                      + '_Es posible que existan problemas con ciertos čäractěreš o nombres compuestos_',
+                    color: 9256510,
+                  },
+                ],
+              },
+            );
+            if (cantDMError) {
+              errorMessage += ` Could not send DM to \`${registeredUser.discordId}\``;
+            }
+            webhookMessage.reply(errorMessage);
+            webhookMessage.react('❌');
+            return;
+          }
+          if (isVerifiedStudentCode && !isFromFISI) {
+            let errorMessage = `✅ El código de estudiante sí le pertenece a \`${fetchedCarnet?.fullname}\`\n`
+              + '❌ Pero no es un estudiante de la FISI';
+
+            const cantDMError = await sendDMToUser(
+              newGuildMember,
+              {
+                embeds: [
+                  {
+                    title: '<:fisi:1033062991035375666> FISI - Verificaciones <:fisi:1033062991035375666>',
+                    description: ':x: No hemos podido identificarte como estudiante de la FISI 😿\n'
+                      + 'Estamos considerando la posibilidad de abrir la comunidad a estudiantes de otras facultades\n\n'
+                      + 'Por favor, abre un ticket en <#1042710855776731238> si apoyas esta idea',
+                    color: 9256510,
+                  },
+                ],
+              },
+            );
+            if (cantDMError) {
+              errorMessage += ` Could not send DM to \`${registeredUser.discordId}\``;
+            }
+            webhookMessage.reply(errorMessage);
+            webhookMessage.react('❌');
+            return;
+          }
+        }
+
         const alreadyHasRole = newGuildMember.roles.cache.has(process.env.VERIFIED_ROLE_ID!);
         if (alreadyHasRole) {
           webhookMessage.react('😧');
-          webhookMessage.reply(
-            '😧 This should not happen\n'
-            + `The user ${newGuildMember.user} already has the verified role, but is not registered.`,
+          let errorMessage = (
+            '<@&1039043399581454346> 😧 This should not happen\n'
+            + `The user ${newGuildMember.user} already has the verified role, but is not registered.\n`
           );
-          // TODO: register user in the database
+          // Save user to db
+          try {
+            await collections.registrations?.insertOne(registeredUser);
+            webhookMessage.react('👌');
+            errorMessage += 'User saved to database.';
+          }
+          catch (_error) {
+            const mongoError = _error as MongoServerError;
+            errorMessage += `Could not save user to database: ${mongoError.message}`;
+          }
+          webhookMessage.reply(errorMessage);
           return;
         }
         const verificationError = await verifyNewGuildMember(newGuildMember);
@@ -209,7 +250,7 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
           });
         }
         else {
-          // TODO: Log warning: welcome channel not found
+          console.warn('WARNING: Welcome channel not found');
         }
 
         // Save user to db
@@ -229,8 +270,9 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
           webhookMessage.react('⚠️');
         }
       }
-      else if (isSameUser) {
+      else if (similarUsers.length === 1 && registeredUser.equivalentTo(similarUsers[0])) {
         // User was already registered in the database
+        // but the user is the same (rejoined the server)
         // Also note that the user is already in the guild
 
         // To check if he is verified
@@ -281,11 +323,11 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
           reportEmbeds.push(getReportEmbed(registeredUser, similarUser));
         });
 
-        if (verifiedStudentCode) {
+        if (isVerifiedStudentCode) {
           // Send error feedback to the channel
           webhookMessage.reply({
             content: '<@&1039043399581454346>\n'
-              + `✅ El código de estudiante sí le pertenece a \`${fetchedCarnetName}\`\n\n`
+              + `✅ El código de estudiante sí le pertenece a \`${fetchedCarnet?.fullname}\`\n\n`
               + `❗️ Sin embargo, ${
                 reportEmbeds.length > 1
                   ? `he encontrado ${reportEmbeds.length} registros similares a ese`
@@ -297,7 +339,7 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
         else {
           webhookMessage.reply({
             content: '<@&1039043399581454346>\n'
-            + `❌ Este código de estudiante le pertenece a \`${fetchedCarnetName}\`\n`
+            + `❌ Este código de estudiante le pertenece a \`${fetchedCarnet?.fullname}\`\n`
             + `No hemos podido encontrar similitud con \`${registeredUser.gmail}\`\n\n`
             + `❗️ Adicionalmente, ${
               reportEmbeds.length > 1

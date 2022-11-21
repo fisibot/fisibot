@@ -20,16 +20,20 @@ export async function carnetNameRequest(studentCode: string) {
   const carnetHTML = await websecgenRes.text();
   const nameLine = carnetHTML
     .split('\n')
-    .find((line) => line.includes('ctl00$ContentPlaceHolder1$txtAlumno'));
+    .find((line) => line.includes('ctl00_ContentPlaceHolder1_txtAlumno'));
 
-  if (!nameLine) {
+  const facultyLine = carnetHTML
+    .split('\n')
+    .find((line) => line.includes('ctl00_ContentPlaceHolder1_txtFacultad'));
+
+  if (!nameLine || !facultyLine) {
     throw new Error('Could not find student name');
   }
+  const fullname = nameLine.split('value="')[1].split('"')[0].trim();
+  const faculty = facultyLine.split('value="')[1].split('"')[0].trim();
 
-  return (
-    nameLine
-      .split('value="')[1]
-      .split('"')[0]
-      .trim()
-  );
+  if (!fullname || !faculty) {
+    return null;
+  }
+  return { fullname, faculty };
 }
