@@ -20,15 +20,18 @@ export function getPossibleEmails(fullname: string): string[] {
   possibleNames.push(names[0]);
   possibleLastnames.push(names.at(-2)!);
 
+  if (names.length === 2) {
+    possibleLastnames.push(names.at(-1)!);
+  }
   if (names.length === 3) {
     possibleLastnames.push(names.at(-1)!);
+    possibleLastnames.push(`${names.at(-2)}${names.at(-1)}`);
+  }
+  if (names.length >= 3) {
     possibleNames.push(`${names.at(0)}${names.at(1)}`);
   }
   if (names.length === 4) {
     possibleLastnames.push(names.at(1)!);
-    if (!names[0].startsWith("d'")) {
-      possibleNames.push(`${names[0]}${names[1]}`);
-    }
     if (!names.at(2)!.startsWith("d'")) {
       possibleLastnames.push(`${names.at(1)}${names.at(2)}`);
     }
@@ -36,6 +39,7 @@ export function getPossibleEmails(fullname: string): string[] {
   if (names.length >= 5) {
     possibleLastnames.push(names.at(-3)!);
     possibleLastnames.push(names.at(-4)!);
+    possibleLastnames.push(`${names.at(-4)}${names.at(-3)}${names.at(-2)}`);
     if (!names.at(-3)!.startsWith("d'")) {
       possibleLastnames.push(`${names.at(-4)}${names.at(-3)}`);
       possibleNames.push(`${names.at(0)}${names.at(1)}${names.at(2)}`);
