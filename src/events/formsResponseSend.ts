@@ -154,10 +154,10 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
                 embeds: [
                   {
                     title: '<:fisi:1033062991035375666> FISI - Verificaciones <:fisi:1033062991035375666>',
-                    description: ':x: Tus datos no han podido ser validados como estudiante de la FISI\n\n'
+                    description: ':x: Tus datos han podido ser validados 😿\n\n'
                       + `El código \`${registeredUser.studentCode}\` te pertenece?\n`
                       + 'Si es así, por favor abre un ticket de ayuda en <#1042710855776731238>,\n\n'
-                      + '_Es posible que existan problemas con ciertos čäractěreš o nombres compuestos_',
+                      + '_Es muy posible que existan problemas con ciertos čäractěreš o **nombres compuestos**_',
                     color: 9256510,
                   },
                 ],
@@ -172,7 +172,7 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
           }
           if (isVerifiedStudentCode && !isFromFISI) {
             let errorMessage = `✅ El código de estudiante sí le pertenece a \`${fetchedCarnet?.fullname}\`\n`
-              + '❌ Pero no es un estudiante de la FISI';
+              + '❌ Pero NO es un estudiante de la FISI';
 
             const cantDMError = await sendDMToUser(
               newGuildMember,
