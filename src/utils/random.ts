@@ -5,6 +5,12 @@ export function randomChoose(array: any[]) {
 }
 
 export function randomWelcomeMessage(username: string, memberCount: number) {
+  if (memberCount === 500) {
+    return `**${username}** es el legendario miembro 500!!! <:alaaaaaaaa:1043599266641367043> <:alaaaaaaaa:1043599266641367043> <:alaaaaaaaa:1043599266641367043>\n`
+      + 'Gracias por llegar al servidor oficial de la FISI <:pikafisi:1043398715379023903> <:pikafisi:1043398715379023903>\n\n'
+      + 'https://discord.io/fisi <a:fisiparty:1043272578262913044>';
+  }
+
   const messages = [
     `**${username}** ha llegado al servidor de la FISI!!`,
     `PAREN TODO, **${username}** ha llegado al servidor`,
