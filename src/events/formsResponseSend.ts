@@ -154,7 +154,7 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
                 embeds: [
                   {
                     title: '<:fisi:1033062991035375666> FISI - Verificaciones <:fisi:1033062991035375666>',
-                    description: ':x: Tus datos han podido ser validados 😿\n\n'
+                    description: ':x: Tus datos NO han podido ser validados 😿\n\n'
                       + `El código \`${registeredUser.studentCode}\` te pertenece?\n`
                       + 'Si es así, por favor abre un ticket de ayuda en <#1042710855776731238>,\n\n'
                       + '_Es muy posible que existan problemas con ciertos čäractěreš o **nombres compuestos**_',
@@ -317,6 +317,7 @@ const formsResponseHandler: FisiClientEventObject<Events.MessageCreate> = {
       }
       // TODO: Option to update the user data in the database
       else {
+        // TODO: Handle multiaccounting
         const reportEmbeds: EmbedBuilder[] = [];
         // Generate a embed-report for each similar user in the database
         similarUsers.forEach((similarUser) => {
