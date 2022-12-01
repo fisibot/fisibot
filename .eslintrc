@@ -16,7 +16,7 @@
         // See https://eslint.org/docs/latest/rules/brace-style#stroustrup
         "@typescript-eslint/brace-style": ["error", "stroustrup"],
         "no-underscore-dangle": "off",
-        "no-plusplus": "off",
+        "no-plusplus": "off"
     },
     "ignorePatterns": [
         "build",
