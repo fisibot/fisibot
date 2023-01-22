@@ -1,4 +1,5 @@
 
+<!-- markdownlint-disable MD033 MD041 -->
 <div align="center">
     <img src="./public/botprofile.png" width=140 height=140 style="margin-right: 12px;"/>
     <h1>Fisibot</h1>
@@ -41,10 +42,10 @@ Está desarrollado con [TypeScript](https://www.typescriptlang.org/) y
 [ESLint](https://eslint.org/) para asegurar la calidad del código y
 la mantenibilidad del proyecto a lo largo de toda la historia de La FISI.
 
-
 ## ✨ Contribuciones
 
 Importante:
+
 ```md
 Este proyecto se encuentra actualmente en una versión alpha
 
