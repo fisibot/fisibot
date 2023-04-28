@@ -15,6 +15,7 @@ export class RegisteredMember {
 
   constructor(member: RegisteredMember) {
     this.fullname = member.fullname;
+    this.fullname ||= 'Unknown name';
     this.gmail = member.gmail;
     this.studentCode = member.studentCode;
     this.base = member.base;

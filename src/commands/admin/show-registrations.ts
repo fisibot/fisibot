@@ -4,7 +4,7 @@ import {
 } from 'discord.js';
 import { FisiSlashSubcommand } from '@fisitypes';
 import { collections } from '@services/db/mongo';
-import RegisteredMember from '@services/db/models/registeredMember';
+import { RegisteredMember } from '@services/db/models/registeredMember';
 
 const setupVerifications: FisiSlashSubcommand = {
   data: new SlashCommandSubcommandBuilder()
