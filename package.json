@@ -1,6 +1,6 @@
 {
   "name": "fisibot",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.5",
   "description": "Discord bot for the FISI UNMSM server",
   "main": "src/bot.ts",
   "engines": {
