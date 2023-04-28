@@ -3,8 +3,24 @@
         "id": "1031664179993657375",
         "serverRules": [
             {
-                "name": "Todavía no hay reglas",
-                "description": "Todavía no hay reglitas, esperaremos a los moderadores"
+                "name": "Toda cuenta debe ser registrada como estudiante de la facultad, sin excepciones.",
+                "description": "El rol `Fisi` identifica a un miembro como registrado. Es el único rol capaz de dar acceso al servidor y todos los demás roles dependen de él"
+            },
+            {
+                "name": "Respetar a la FISI y sus estudiantes; dentro del servidor, y en el contexto del servidor.",
+                "description": "En lo que al servidor "
+            },
+            {
+                "name": "Seguir la temática y propósito de cada canal, no se permite el contenido NSFW de ningún tipo.",
+                "description": ""
+            },
+            {
+                "name": "No hacer spam ni flood. No incomodar a los miembros del servidor por MD (mensajes directos).",
+                "description": ""
+            },
+            {
+                "name": "Según sea el contexto, estas reglas pueden ser adaptadas, mas no malinterpretadas.",
+                "description": ""
             }
         ]
     }
