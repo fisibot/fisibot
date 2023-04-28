@@ -9,9 +9,7 @@ export async function sendDMToUser(user: GuildMember, message: MessageToUser) {
   try {
     if (typeof message === 'string') {
       await user.send({
-        embeds: [{
-          description: message,
-        }],
+        embeds: [{ description: message }],
       });
     }
     else {

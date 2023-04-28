@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-export default class RegisteredMember {
+export class RegisteredMember {
   public fullname: string;
 
   public gmail: string;

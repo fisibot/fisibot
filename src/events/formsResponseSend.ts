@@ -4,7 +4,7 @@ import {
 } from 'discord.js';
 import { MongoServerError } from 'mongodb';
 import { FisiClientEventObject } from '@fisitypes';
-import RegisteredMember from '@services/db/models/registeredMember';
+import { RegisteredMember } from '@services/db/models/registeredMember';
 import { collections } from '@services/db/mongo';
 import { sendDMToUser } from '@utils/sendDMToUser';
 import { embedFieldsToJSON } from '@utils/embedFieldsToJSON';
@@ -385,8 +385,7 @@ function getReportEmbed(registeredUser: RegisteredMember, similarUser: Registere
   return (
     new EmbedBuilder()
       .setDescription(
-        `**fullName**: \`${similarUser.fullname}\`\n`
-        + `**gmail**: \`${similarUser.gmail}${sameGmail ? ' 🚩' : ''}\`\n`
+        `**gmail**: \`${similarUser.gmail}${sameGmail ? ' 🚩' : ''}\`\n`
         + `**studentCode**: \`${similarUser.studentCode}${sameStudentCode ? ' 🚩' : ''}\`\n`
         + `**base**: \`${similarUser.base}\`\n`
         + `**discordId**: \`${similarUser.discordId}${sameDiscordId ? ' 🚩' : ''}\`\n\n`

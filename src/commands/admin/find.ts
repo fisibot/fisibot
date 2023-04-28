@@ -4,12 +4,14 @@ import {
 } from 'discord.js';
 import { FisiSlashSubcommand } from '@fisitypes';
 import { collections } from '@services/db/mongo';
-import RegisteredMember from '@services/db/models/registeredMember';
+import { RegisteredMember } from '@services/db/models/registeredMember';
 
 function memberEmbed(member: RegisteredMember) {
   const timestamp = member._id?.getTimestamp();
   const discordTimeAgo = `<t:${timestamp?.valueOf() as number / 1000}:R>`;
   const stringDate = timestamp?.toLocaleString('es-ES', { timeZone: 'America/Lima' });
+
+  // Legacy: the fullname used to be a field on the form
 
   return {
     description: `<@${member.discordId}>\n`
